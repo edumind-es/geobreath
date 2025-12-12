@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+:root {
+    /* EDUmind Core Brand Colors */
+    --mint: #3ddad7;
+    --sky: #3c7dff;
+    --vio: #a963ff;
+    --ink: #f5fbff;
+    --sub: #96aac7;
+    --bg0: #040614;
+
+    /* LME Theme Tokens (Dark First) */
+    --lme-surface: rgba(13, 22, 38, 0.65);
+    --lme-surface-soft: rgba(25, 40, 66, 0.72);
+    --lme-border: rgba(90, 126, 181, 0.38);
+    --lme-text: #f5fbff;
+    --lme-muted: #96aac7;
+    --lme-shadow: 0 8px 32px rgba(4, 10, 28, 0.55);
+}
+
+body {
+    color: var(--lme-text);
+    background-color: var(--bg0);
+    background-image:
+        radial-gradient(at 0% 0%, rgba(61, 218, 215, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(60, 125, 255, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(169, 99, 255, 0.08) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(13, 23, 48, 1) 0px, transparent 50%);
+    background-attachment: fixed;
+    background-size: cover;
+    min-height: 100vh;
+    font-family: 'Inter', system-ui, sans-serif;
+}

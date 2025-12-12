@@ -1,0 +1,20 @@
+{
+  "name": "Respira LME",
+  "short_name": "Respira",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#040614",
+  "theme_color": "#040614",
+  "icons": [
+    {
+      "src": "/static/img/inspiro.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/img/exhalo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
