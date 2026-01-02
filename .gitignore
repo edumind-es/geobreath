@@ -37,5 +37,16 @@ yarn-error.log*
 .vercel
 
 # typescript
-*.tsbuildinfo
-next-env.d.ts
+
+# Internal Documentation
+README_COMPLETO.md
+DEPLOYMENT.md
+TROUBLESHOOTING.md
+
+# Scripts & Config
+deploy.sh
+package-dist.sh
+purge-breath-cache.sh
+*.conf
+*.service
+*.log
