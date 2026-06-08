@@ -1,31 +1,27 @@
-# GeoBreath React
+# GeoBreath
 
-Aplicación de respiración guiada con visualizaciones geométricas.
+GeoBreath is an EDUmind breathing and focus app with guided breathing
+patterns and geometric visual feedback.
 
-## Tecnología
-- **Frontend:** React + TypeScript
-- **Animaciones:** Framer Motion
-- **Audio:** Web Audio API
+This public repository is a sanitized source release for code review,
+educational reuse and community audit. Production secrets, deployment
+configuration, private runbooks, generated builds and local user state are
+not included.
 
-## Instalación
+## Development
 
 ```bash
 npm install
-npm run dev     # Desarrollo
-npm run build   # Producción
+npm run dev
+npm run build
 ```
 
-## Características
+## Release Scope
 
-- Respiración guiada con patrones (4-7-8, cuadrada, etc.)
-- Visualizaciones geométricas animadas
-- Música ambiente opcional
-- Sesiones temporizadas
+See `OPEN_SOURCE_RELEASE.md` for what is included and excluded.
 
-## Servicio
+## License
 
-- **URL:** https://geobreath.edumind.es
+Licensed under `AGPL-3.0-or-later OR EUPL-1.2`.
 
-## Licencia
-
-GNU GPL v3 - EDUmind / Los Mundos Edufis
+EDUmind(R), logos and brand assets are reserved. See `TRADEMARKS.md`.
