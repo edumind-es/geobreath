@@ -1,0 +1,122 @@
+/*
+ * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Author: Luis Vilela Acuna
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+@import "tailwindcss";
+
+:root {
+    color-scheme: dark;
+    --mint: #3ddad7;
+    --sky: #3c7dff;
+    --emerald: #90f0b3;
+    --ink: #f5fbff;
+    --sub: #96aac7;
+    --bg0: #020617;
+    --bg1: #07111f;
+    --bg2: #0b1728;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    color: var(--ink);
+    background-color: #030712;
+    background-image:
+        linear-gradient(145deg, rgba(12, 58, 65, 0.42) 0%, transparent 34%),
+        linear-gradient(180deg, #09111f 0%, #030712 58%, #020617 100%);
+    background-attachment: fixed;
+    font-family: var(--font-body), system-ui, sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body[data-edumind-embed="true"] {
+    overflow: hidden;
+}
+
+body[data-edumind-embed="true"] .edumind-footer {
+    display: none !important;
+}
+
+.geobreath-embed {
+    width: 100%;
+    max-width: none;
+    padding: 0.5rem;
+}
+
+.geobreath-embed header {
+    padding-block: 0.65rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+::selection {
+    background: rgba(61, 218, 215, 0.28);
+    color: #ffffff;
+}
+
+a,
+button,
+input,
+textarea,
+select {
+    transition: outline-color 0.2s ease;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid rgba(61, 218, 215, 0.9);
+    outline-offset: 3px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.65);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background: linear-gradient(180deg, rgba(61, 218, 215, 0.55), rgba(60, 125, 255, 0.5));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

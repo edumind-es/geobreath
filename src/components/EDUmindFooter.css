@@ -1,0 +1,170 @@
+/*
+ * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Author: Luis Vilela Acuna
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.edumind-footer {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 2rem;
+    max-width: 84rem;
+    color: rgba(226, 232, 240, 0.88);
+}
+
+.footer-brand,
+.footer-link-groups,
+.footer-actions,
+.footer-nav {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(7, 12, 24, 0.78);
+    backdrop-filter: blur(18px);
+    border-radius: 1.5rem;
+    padding: 1rem 1.1rem;
+    box-shadow: 0 18px 40px rgba(2, 6, 23, 0.18);
+}
+
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.footer-app-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.footer-app-name {
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #f8fafc;
+}
+
+.footer-badge {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(61, 218, 215, 0.28);
+    border-radius: 999px;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #baf8f1;
+    background: rgba(61, 218, 215, 0.08);
+}
+
+.footer-copy {
+    margin: 0;
+    color: rgba(148, 163, 184, 0.95);
+    line-height: 1.6;
+}
+
+.footer-copy strong {
+    color: #f8fafc;
+}
+
+.footer-nav,
+.footer-group-links,
+.footer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.footer-link-groups {
+    display: grid;
+    gap: 1rem;
+}
+
+.footer-group {
+    display: grid;
+    gap: 0.55rem;
+}
+
+.footer-group-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(148, 163, 184, 0.82);
+}
+
+.footer-link,
+.footer-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.5rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(226, 232, 240, 0.92);
+    text-decoration: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-link:hover,
+.footer-action:hover {
+    border-color: rgba(61, 218, 215, 0.24);
+    background: rgba(61, 218, 215, 0.1);
+    transform: translateY(-1px);
+}
+
+.footer-link:focus-visible,
+.footer-action:focus-visible {
+    outline: 2px solid rgba(61, 218, 215, 0.9);
+    outline-offset: 3px;
+}
+
+.footer-action {
+    width: 100%;
+    justify-content: center;
+    color: #08111f;
+    font-weight: 600;
+    background: linear-gradient(90deg, rgba(61, 218, 215, 0.92), rgba(60, 125, 255, 0.92));
+    border-color: transparent;
+}
+
+@media (min-width: 900px) {
+    .edumind-footer {
+        grid-template-columns: 1.1fr 1fr;
+    }
+
+    .footer-brand {
+        grid-column: span 1;
+    }
+
+    .footer-link-groups {
+        grid-column: span 1;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-actions {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .footer-link,
+    .footer-action {
+        transition: none;
+    }
+}
