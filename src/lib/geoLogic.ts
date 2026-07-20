@@ -18,6 +18,14 @@
 
 export type Phase = 'I' | 'E' | 'H';
 
+// Paso de un patrón respiratorio: una fase con su duración real en segundos.
+// Permite tiempos ASIMÉTRICos por fase (p. ej. 4-7-8, exhalación alargada,
+// suspiro fisiológico), a diferencia del ritmo uniforme (secPerPhase).
+export interface PhaseStep {
+    phase: Phase;
+    seconds: number;
+}
+
 export function geoBreathSequence(n: number, startFlag: string = 'I'): Phase[] {
     // Validate n parameter
     if (typeof n !== 'number' || isNaN(n) || n < 2) {
@@ -123,4 +131,41 @@ export function getPointOnTrail(n: number, idx: number, t: number, cx: number, c
         const y = p1[1] + (p2[1] - p1[1]) * t;
         return [x, y];
     }
+}
+
+/**
+ * Curva de respiración por fase: modula la VELOCIDAD del punto guía dentro
+ * de cada lado, para que el avance «respire» en vez de ser lineal.
+ *   - Inspira (I): ease-out — arranca decidido y desacelera al llenarse.
+ *   - Exhala (E): ease-in — sale lento y acelera al vaciarse.
+ *   - Aguanta (H): casi lineal — avance sereno y constante.
+ * Preserva los extremos (t=0 → 0, t=1 → 1), así los vértices siguen encajando.
+ */
+export function easeBreath(phase: Phase, t: number): number {
+    const clamped = t < 0 ? 0 : t > 1 ? 1 : t;
+    if (phase === 'I') return 1 - (1 - clamped) * (1 - clamped);
+    if (phase === 'E') return clamped * clamped;
+    return clamped;
+}
+
+/**
+ * Punto sobre el recorrido completo de la figura (una vuelta) a partir de una
+ * fracción global f∈[0,1]. Unifica polígono y círculo, y permite muestrear
+ * posiciones «por detrás» del punto guía para dibujar la estela tipo cometa.
+ * La vuelta se divide en `n` segmentos iguales (lados) empezando arriba (-90°),
+ * en sentido horario, igual que getPolygonPoints / getPointOnTrail.
+ */
+export function getPointAtLapFraction(n: number, f: number, cx: number, cy: number, R: number): [number, number] {
+    if (typeof n !== 'number' || isNaN(n) || n < 2) n = 3;
+    const frac = f < 0 ? 0 : f > 1 ? 1 : f;
+
+    if (n === 2) {
+        const ang = -Math.PI / 2 + frac * 2 * Math.PI;
+        return [cx + R * Math.cos(ang), cy + R * Math.sin(ang)];
+    }
+
+    const scaled = frac * n;
+    const seg = Math.min(n - 1, Math.floor(scaled));
+    const local = scaled - seg;
+    return getPointOnTrail(n, seg, local, cx, cy, R);
 }

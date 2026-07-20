@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
- * Author: Luis Vilela Acuna
+ * Author: Luis Vilela Acuña
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -58,13 +58,14 @@ export default function PremiumNavigation() {
                     <Link
                         key={item.href}
                         href={item.href}
-                        className={`flex items-center gap-3 rounded-2xl border px-4 py-3 text-sm font-medium transition-colors ${
+                        aria-current={active ? "page" : undefined}
+                        className={`flex items-center gap-3 rounded-lg border px-4 py-3 text-sm font-semibold transition-colors ${
                             active
-                                ? "border-teal-300/40 bg-teal-300/12 text-slate-50"
-                                : "border-white/10 bg-white/5 text-slate-300 hover:border-white/20 hover:bg-white/[0.08]"
+                                ? "border-mental/60 bg-mental/10 text-ink"
+                                : "border-rule bg-paper text-ink-2 hover:border-ink-3 hover:text-ink"
                         }`}
                     >
-                        <span className={`flex h-9 w-9 items-center justify-center rounded-xl ${active ? "bg-white/10 text-teal-100" : "bg-black/20 text-slate-400"}`}>
+                        <span className={`flex h-9 w-9 items-center justify-center rounded-md ${active ? "bg-mental/15 text-mental-deep" : "bg-black/[0.04] text-ink-3"}`}>
                             <Icon size={18} />
                         </span>
                         {item.label}

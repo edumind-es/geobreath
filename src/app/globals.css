@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
- * Author: Luis Vilela Acuna
+ * Author: Luis Vilela Acuña
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,16 +18,48 @@
 
 @import "tailwindcss";
 
+/* ==========================================================================
+   Hoja propia de GeoBreath — personalización sobre el canon «lámina».
+   El canon (tokens --lm-* y clases .lm-*) vive en src/styles/lamina-v1.css
+   y NO se edita. Aquí exponemos esos valores como utilidades Tailwind y
+   fijamos el modo híbrido: interfaz en papel/tinta + escenario en modo noche.
+   ========================================================================== */
+
+/* --- Tokens de diseño como utilidades Tailwind (bg-paper, text-ink, ...) --- */
+@theme {
+    /* Papel y tinta (canon lámina) */
+    --color-paper: #e9e6dd;
+    --color-paper-2: #f0ede5;
+    --color-ink: #1c1a16;
+    --color-ink-2: #4f4a41;
+    --color-ink-3: #8a8377;
+    --color-rule: #c7c0b1;
+    --color-rule-strong: #1c1a16;
+
+    /* Los Cinco Mundos (color plano) + variantes -deep (texto sobre papel) */
+    --color-fisico: #e8613f;
+    --color-fisico-deep: #a63a1f;
+    --color-social: #e8a92e;
+    --color-social-deep: #7d560e;
+    --color-emocional: #6ea94a;
+    --color-emocional-deep: #3f6b2a;
+    --color-mental: #3f7d99;
+    --color-mental-deep: #2f6076;
+    --color-interior: #2c5c66;
+    --color-interior-deep: #2c5c66;
+
+    /* Tipografía: puente a las fuentes cargadas por next/font (--f-*) */
+    --font-display: var(--f-display), "Bricolage Grotesque", "Outfit", "Helvetica Neue", Arial, sans-serif;
+    --font-body: var(--f-body), "Poppins", "Outfit", system-ui, sans-serif;
+    --font-mono: var(--f-mono), "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+/* Puente hacia el canon lámina: sus clases .lm-* usan las fuentes reales */
 :root {
-    color-scheme: dark;
-    --mint: #3ddad7;
-    --sky: #3c7dff;
-    --emerald: #90f0b3;
-    --ink: #f5fbff;
-    --sub: #96aac7;
-    --bg0: #020617;
-    --bg1: #07111f;
-    --bg2: #0b1728;
+    color-scheme: light;
+    --lm-display: var(--f-display), "Bricolage Grotesque", "Outfit", "Helvetica Neue", Arial, sans-serif;
+    --lm-body: var(--f-body), "Poppins", "Outfit", system-ui, sans-serif;
+    --lm-mono: var(--f-mono), "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
 }
 
 html {
@@ -36,18 +68,47 @@ html {
 
 body {
     min-height: 100vh;
-    color: var(--ink);
-    background-color: #030712;
-    background-image:
-        linear-gradient(145deg, rgba(12, 58, 65, 0.42) 0%, transparent 34%),
-        linear-gradient(180deg, #09111f 0%, #030712 58%, #020617 100%);
-    background-attachment: fixed;
-    font-family: var(--font-body), system-ui, sans-serif;
+    color: var(--lm-ink);
+    background-color: var(--lm-paper);
+    font-family: var(--lm-body);
+    line-height: 1.5;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+    box-sizing: border-box;
+}
+
+::selection {
+    background: color-mix(in srgb, var(--lm-mental) 26%, transparent);
+    color: var(--lm-ink);
+}
+
+/* Foco visible coherente con la lámina (mundo mental) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--lm-focus);
+    outline-offset: 3px;
+}
+
+/* ==========================================================================
+   ESCENARIO DE RESPIRACIÓN — único bloque en modo noche (calma meditativa)
+   Se usa junto a data-lm-theme="noche" para conmutar los tokens de la lámina.
+   ========================================================================== */
+.geo-stage {
+    background:
+        radial-gradient(125% 95% at 50% 12%, #163a41 0%, #0f2a2f 46%, #0a1c20 100%);
+    color: #ece8dd;
+}
+
+/* ==========================================================================
+   MODO EMBED (pizarra / iframe) — conservado del diseño anterior
+   ========================================================================== */
 body[data-edumind-embed="true"] {
     overflow: hidden;
 }
@@ -66,44 +127,45 @@ body[data-edumind-embed="true"] .edumind-footer {
     padding-block: 0.65rem;
 }
 
-* {
-    box-sizing: border-box;
+/* ==========================================================================
+   FOOTER OFICIAL EDUmind (@edumind/footer vendorizado) — armonizado a la
+   paleta lámina. Se fijan --ef-* directamente (selector :root .edumind-footer)
+   para ganar al modo oscuro automático del canónico: la app es de tema único.
+   ========================================================================== */
+:root .edumind-footer {
+    --ef-bg: var(--lm-paper-2);
+    --ef-border: var(--lm-rule);
+    --ef-text: var(--lm-ink-2);
+    --ef-text-strong: var(--lm-ink);
+    --ef-link: var(--lm-mental-deep);
+    --ef-link-hover: var(--lm-mental);
+    --ef-support: var(--lm-fisico-deep);
+    --ef-badge-bg: var(--lm-paper);
+    --ef-badge-text: var(--lm-ink-2);
+    font-family: var(--lm-body);
 }
 
-::selection {
-    background: rgba(61, 218, 215, 0.28);
-    color: #ffffff;
+:root .edumind-footer__version-badge {
+    font-family: var(--lm-mono);
 }
 
-a,
-button,
-input,
-textarea,
-select {
-    transition: outline-color 0.2s ease;
-}
-
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
-    outline: 2px solid rgba(61, 218, 215, 0.9);
-    outline-offset: 3px;
-}
-
+/* --- Scrollbar en tonos papel --- */
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(15, 23, 42, 0.65);
+    background: var(--lm-paper-2);
 }
 
 ::-webkit-scrollbar-thumb {
     border-radius: 9999px;
-    background: linear-gradient(180deg, rgba(61, 218, 215, 0.55), rgba(60, 125, 255, 0.5));
+    background: var(--lm-rule);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--lm-ink-3);
 }
 
 @media (prefers-reduced-motion: reduce) {

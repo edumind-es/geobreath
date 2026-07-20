@@ -1,170 +1,302 @@
 /*
- * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
- * Author: Luis Vilela Acuna
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * EDUmindFooter.css — Sistema de diseño EDUmind (copia fiel del canónico)
+ * Compatible con Modo Dark y Modo Light.
+ * Los colores se armonizan por app vía variables --footer-* (ver globals.css).
  */
 
+/* ── Variables locales con fallbacks del sistema EDUmind ── */
 .edumind-footer {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.25rem;
-    margin: 0 auto;
-    padding: 1.5rem 1rem 2rem;
-    max-width: 84rem;
-    color: rgba(226, 232, 240, 0.88);
-}
+    /* Modo Light por defecto */
+    --ef-bg: var(--footer-bg, #f8f9fa);
+    --ef-border: var(--footer-border, rgba(15, 23, 42, 0.08));
+    --ef-text: var(--footer-text, #64748b);
+    --ef-text-strong: var(--footer-text-strong, #334155);
+    --ef-link: var(--footer-link, #3b82f6);
+    --ef-link-hover: var(--footer-link-hover, #2563eb);
+    --ef-support: var(--mundo-fisico, #10b981);
+    --ef-badge-bg: var(--footer-badge-bg, #e2e8f0);
+    --ef-badge-text: var(--footer-badge-text, #475569);
+    --ef-radius: 6px;
+    --ef-transition: 0.2s ease;
 
-.footer-brand,
-.footer-link-groups,
-.footer-actions,
-.footer-nav {
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(7, 12, 24, 0.78);
-    backdrop-filter: blur(18px);
-    border-radius: 1.5rem;
-    padding: 1rem 1.1rem;
-    box-shadow: 0 18px 40px rgba(2, 6, 23, 0.18);
-}
-
-.footer-brand {
+    /* Layout */
     display: flex;
     flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.25rem 2rem;
+
+    /* Visual */
+    background-color: var(--ef-bg);
+    border-top: 1px solid var(--ef-border);
+    color: var(--ef-text);
+    font-family: "DM Sans", "Space Grotesk", system-ui, sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.5;
+
+    transition: background-color var(--ef-transition), border-color var(--ef-transition);
+}
+
+/* ── Modo Dark automático ── */
+@media (prefers-color-scheme: dark) {
+    .edumind-footer {
+        --ef-bg: #171b26;
+        --ef-border: #2a3050;
+        --ef-text: #7a8099;
+        --ef-text-strong: #e8eaf2;
+        --ef-link: #4f8ef7;
+        --ef-link-hover: #7ab3ff;
+        --ef-badge-bg: #1e2333;
+        --ef-badge-text: #9a9fbf;
+    }
+}
+
+/* Soporte explícito para clase .dark o data-theme="dark" */
+.dark .edumind-footer,
+[data-theme="dark"] .edumind-footer {
+    --ef-bg: #171b26;
+    --ef-border: #2a3050;
+    --ef-text: #7a8099;
+    --ef-text-strong: #e8eaf2;
+    --ef-link: #4f8ef7;
+    --ef-link-hover: #7ab3ff;
+    --ef-badge-bg: #1e2333;
+    --ef-badge-text: #9a9fbf;
+}
+
+/* ── Variante compact ── */
+.edumind-footer--compact {
+    padding: 0.75rem 1.5rem;
     gap: 0.5rem;
 }
 
-.footer-app-row {
+.edumind-footer--compact .edumind-footer__social,
+.edumind-footer--compact .edumind-footer__trademark {
+    display: none;
+}
+
+/* ── Navegación ── */
+.edumind-footer__nav {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     flex-wrap: wrap;
 }
 
-.footer-app-name {
-    font-family: var(--font-display), system-ui, sans-serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #f8fafc;
-}
-
-.footer-badge {
-    display: inline-flex;
-    align-items: center;
-    border: 1px solid rgba(61, 218, 215, 0.28);
-    border-radius: 999px;
-    padding: 0.25rem 0.65rem;
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #baf8f1;
-    background: rgba(61, 218, 215, 0.08);
-}
-
-.footer-copy {
-    margin: 0;
-    color: rgba(148, 163, 184, 0.95);
-    line-height: 1.6;
-}
-
-.footer-copy strong {
-    color: #f8fafc;
-}
-
-.footer-nav,
-.footer-group-links,
-.footer-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-}
-
-.footer-link-groups {
-    display: grid;
-    gap: 1rem;
-}
-
-.footer-group {
-    display: grid;
-    gap: 0.55rem;
-}
-
-.footer-group-title {
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: rgba(148, 163, 184, 0.82);
-}
-
-.footer-link,
-.footer-action {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 2.5rem;
-    padding: 0.6rem 0.9rem;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.04);
-    color: rgba(226, 232, 240, 0.92);
+.edumind-footer__nav-btn {
     text-decoration: none;
-    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-}
-
-.footer-link:hover,
-.footer-action:hover {
-    border-color: rgba(61, 218, 215, 0.24);
-    background: rgba(61, 218, 215, 0.1);
-    transform: translateY(-1px);
-}
-
-.footer-link:focus-visible,
-.footer-action:focus-visible {
-    outline: 2px solid rgba(61, 218, 215, 0.9);
-    outline-offset: 3px;
-}
-
-.footer-action {
-    width: 100%;
-    justify-content: center;
-    color: #08111f;
+    color: var(--ef-link);
     font-weight: 600;
-    background: linear-gradient(90deg, rgba(61, 218, 215, 0.92), rgba(60, 125, 255, 0.92));
-    border-color: transparent;
+    font-size: 0.85rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--ef-radius);
+    border: 1px solid var(--ef-border);
+    transition: color var(--ef-transition), background-color var(--ef-transition);
 }
 
-@media (min-width: 900px) {
-    .edumind-footer {
-        grid-template-columns: 1.1fr 1fr;
-    }
-
-    .footer-brand {
-        grid-column: span 1;
-    }
-
-    .footer-link-groups {
-        grid-column: span 1;
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .footer-actions {
-        grid-column: 1 / -1;
-    }
+.edumind-footer__nav-btn:hover {
+    color: var(--ef-link-hover);
+    background-color: color-mix(in srgb, var(--ef-link) 8%, transparent);
 }
 
+.edumind-footer__nav-btn:focus-visible {
+    outline: 2px solid var(--ef-link);
+    outline-offset: 2px;
+}
+
+/* ── Bloque principal ── */
+.edumind-footer__main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+/* Info: nombre app + copyright + versión */
+.edumind-footer__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.edumind-footer__app-name {
+    margin: 0;
+    color: var(--ef-text-strong);
+    font-size: 0.9rem;
+}
+
+.edumind-footer__copyright {
+    margin: 0;
+    font-size: 0.8rem;
+}
+
+.edumind-footer__version-inline {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--ef-text);
+    display: flex;
+    gap: 0.35rem;
+}
+
+.edumind-footer__version-label {
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.7rem;
+}
+
+/* Links legales y sociales */
+.edumind-footer__links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.4rem;
+}
+
+.edumind-footer__legal-links,
+.edumind-footer__social {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+}
+
+.edumind-footer__legal-links a,
+.edumind-footer__social a {
+    text-decoration: none;
+    color: var(--ef-text);
+    transition: color var(--ef-transition);
+}
+
+.edumind-footer__legal-links a:hover,
+.edumind-footer__social a:hover {
+    color: var(--ef-link);
+}
+
+.edumind-footer__legal-links span[aria-hidden] {
+    color: var(--ef-border);
+    user-select: none;
+}
+
+.edumind-footer__support-link {
+    color: var(--ef-support) !important;
+    font-weight: 500;
+}
+
+/* ── Bloque marca registrada ── */
+.edumind-footer__trademark {
+    font-size: 0.75rem;
+    color: var(--ef-text);
+    opacity: 0.7;
+    border-top: 1px solid var(--ef-border);
+    padding-top: 0.6rem;
+}
+
+.edumind-footer__trademark p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.edumind-footer__trademark-link {
+    text-decoration: none;
+    color: inherit;
+    transition: color var(--ef-transition);
+}
+
+.edumind-footer__trademark-link:hover {
+    color: var(--ef-link);
+}
+
+/* ── Meta: badge versión + acciones ── */
+.edumind-footer__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.edumind-footer__version-badge {
+    background-color: var(--ef-badge-bg);
+    color: var(--ef-badge-text);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--ef-radius);
+    font-size: 0.75rem;
+    font-family: "DM Mono", "JetBrains Mono", monospace;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.edumind-footer__action-link {
+    text-decoration: none;
+    color: var(--ef-link);
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--ef-radius);
+    transition: color var(--ef-transition), background-color var(--ef-transition);
+    white-space: nowrap;
+}
+
+.edumind-footer__action-link:hover {
+    color: var(--ef-link-hover);
+    background-color: color-mix(in srgb, var(--ef-link) 8%, transparent);
+}
+
+.edumind-footer__action-link:focus-visible {
+    outline: 2px solid var(--ef-link);
+    outline-offset: 2px;
+}
+
+/* ── Accesibilidad ── */
 @media (prefers-reduced-motion: reduce) {
-    .footer-link,
-    .footer-action {
+    .edumind-footer,
+    .edumind-footer__nav-btn,
+    .edumind-footer__action-link,
+    .edumind-footer__legal-links a,
+    .edumind-footer__social a {
         transition: none;
+    }
+}
+
+@media (prefers-contrast: high) {
+    .edumind-footer {
+        border-top-width: 2px;
+    }
+    .edumind-footer__nav-btn:focus-visible,
+    .edumind-footer__action-link:focus-visible {
+        outline-width: 3px;
+    }
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .edumind-footer {
+        padding: 1rem 1.25rem;
+    }
+
+    .edumind-footer__main {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .edumind-footer__links {
+        align-items: flex-start;
+    }
+
+    .edumind-footer__meta {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .edumind-footer {
+        padding: 0.875rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .edumind-footer__legal-links,
+    .edumind-footer__social {
+        gap: 0.35rem;
+        font-size: 0.75rem;
     }
 }

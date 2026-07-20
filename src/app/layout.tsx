@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
- * Author: Luis Vilela Acuna
+ * Author: Luis Vilela Acuña
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,25 +16,37 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import "../styles/lamina-v1.css";
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Bricolage_Grotesque, Poppins, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import EDUmindFooter from "../components/EDUmindFooter";
 import PWARegister from "../components/PWARegister";
 
-const inter = Inter({
+// Fuentes del sistema «lámina» EDUmind (cargadas por next/font, sin dependencias)
+const display = Bricolage_Grotesque({
     subsets: ["latin"],
-    variable: "--font-body",
+    variable: "--f-display",
+    display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({
+const body = Poppins({
     subsets: ["latin"],
-    variable: "--font-display",
+    weight: ["400", "500", "600", "700"],
+    variable: "--f-body",
+    display: "swap",
+});
+
+const mono = IBM_Plex_Mono({
+    subsets: ["latin"],
+    weight: ["400", "500", "600"],
+    variable: "--f-mono",
+    display: "swap",
 });
 
 export const viewport: Viewport = {
-    themeColor: "#020617",
+    themeColor: "#e9e6dd",
 };
 
 export const metadata: Metadata = {
@@ -73,7 +85,11 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="es">
-            <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
+            <body className={`${display.variable} ${body.variable} ${mono.variable}`}>
+                {/* Identidad Sistema Lámina (nivel 1): barra de mundos EDUmind */}
+                <div className="lm-plate-top lm-plate-top--compact" aria-hidden="true">
+                    <i /><i /><i /><i /><i />
+                </div>
                 {children}
                 <PWARegister />
                 <EDUmindFooter

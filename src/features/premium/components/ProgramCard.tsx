@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
- * Author: Luis Vilela Acuna
+ * Author: Luis Vilela Acuña
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -46,27 +46,28 @@ export default function ProgramCard({
         : null;
 
     return (
-        <article className={`relative overflow-hidden rounded-[28px] border border-white/10 bg-[rgba(8,14,27,0.78)] p-5 shadow-[0_18px_48px_rgba(2,6,23,0.24)] ${locked ? "opacity-90" : ""}`}>
-            <div className={`pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-br ${program.accent}`} />
+        <article className={`relative overflow-hidden rounded-2xl border border-rule bg-paper-2 p-5 ${locked ? "opacity-90" : ""}`}>
+            {/* Lomo de color del mundo (barra plana, sin gradiente) */}
+            <div className={`pointer-events-none absolute inset-y-0 left-0 w-1.5 ${program.access === "premium" ? "bg-interior" : "bg-mental"}`} />
             <div className="relative z-10">
                 <div className="flex items-start justify-between gap-4">
                     <div>
-                        <p className="text-[11px] uppercase tracking-[0.28em] text-slate-500">{program.focus}</p>
-                        <h3 className="mt-2 text-xl font-semibold text-slate-50">{program.title}</h3>
+                        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-2">{program.focus}</p>
+                        <h3 className="mt-2 font-display text-xl font-bold text-ink">{program.title}</h3>
                     </div>
                     <div className="flex flex-col items-end gap-2">
                         <span
-                            className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] ${
+                            className={`inline-flex items-center gap-2 rounded-md border px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.12em] ${
                                 program.access === "premium"
-                                    ? "border-fuchsia-300/25 bg-fuchsia-300/10 text-fuchsia-100"
-                                    : "border-teal-300/25 bg-teal-300/10 text-teal-100"
+                                    ? "border-interior-deep bg-interior/10 text-interior-deep"
+                                    : "border-mental-deep bg-mental/10 text-mental-deep"
                             }`}
                         >
                             {program.access === "premium" ? <Sparkles size={14} /> : <PlayCircle size={14} />}
                             {program.access === "premium" ? "Premium" : "Libre"}
                         </span>
                         {isFavorite ? (
-                            <span className="inline-flex items-center gap-2 rounded-full border border-rose-300/20 bg-rose-300/10 px-3 py-1 text-xs text-rose-100">
+                            <span className="inline-flex items-center gap-2 rounded-md border border-fisico-deep bg-fisico/10 px-3 py-1 text-xs font-semibold text-fisico-deep">
                                 <Heart size={14} />
                                 Favorito
                             </span>
@@ -74,37 +75,33 @@ export default function ProgramCard({
                     </div>
                 </div>
 
-                <p className="mt-4 text-sm leading-7 text-slate-300">{program.summary}</p>
+                <p className="mt-4 text-sm leading-7 text-ink-2">{program.summary}</p>
 
                 <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
-                    <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-                        <p className="text-[10px] uppercase tracking-[0.24em] text-slate-500">Duracion</p>
-                        <p className="mt-2 text-base font-semibold text-slate-50">{program.duration}</p>
+                    <div className="rounded-lg border border-rule bg-paper p-3">
+                        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-2">Duración</p>
+                        <p className="mt-2 font-display text-base font-bold text-ink">{program.duration}</p>
                     </div>
-                    <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-                        <p className="text-[10px] uppercase tracking-[0.24em] text-slate-500">Cadencia</p>
-                        <p className="mt-2 text-base font-semibold text-slate-50">{program.cadence}</p>
+                    <div className="rounded-lg border border-rule bg-paper p-3">
+                        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-2">Cadencia</p>
+                        <p className="mt-2 font-display text-base font-bold text-ink">{program.cadence}</p>
                     </div>
-                    <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-                        <p className="text-[10px] uppercase tracking-[0.24em] text-slate-500">Sesiones</p>
-                        <p className="mt-2 text-base font-semibold text-slate-50">{completionCount}</p>
+                    <div className="rounded-lg border border-rule bg-paper p-3">
+                        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-2">Sesiones</p>
+                        <p className="mt-2 font-display text-base font-bold text-ink">{completionCount}</p>
                     </div>
-                    <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-                        <p className="text-[10px] uppercase tracking-[0.24em] text-slate-500">Ultima vez</p>
-                        <p className="mt-2 text-sm font-semibold text-slate-50">{lastCompletedLabel ?? "Sin sesiones aun"}</p>
+                    <div className="rounded-lg border border-rule bg-paper p-3">
+                        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-2">Última vez</p>
+                        <p className="mt-2 text-sm font-semibold text-ink">{lastCompletedLabel ?? "Sin sesiones aún"}</p>
                     </div>
                 </div>
 
-                <div className="mt-5 flex flex-wrap gap-2">
+                <div className="mt-5 flex flex-wrap items-center gap-2">
                     <form action={toggleFavoriteProgramAction}>
                         <input type="hidden" name="programSlug" value={program.slug} />
                         <button
                             type="submit"
-                            className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-                                isFavorite
-                                    ? "border-rose-300/20 bg-rose-300/10 text-rose-100 hover:border-rose-300/30"
-                                    : "border-white/10 bg-white/5 text-slate-100 hover:border-white/20 hover:bg-white/[0.08]"
-                            }`}
+                            className={`lm-btn-ghost ${isFavorite ? "!border-fisico-deep !text-fisico-deep" : ""}`}
                         >
                             <Heart size={16} />
                             {isFavorite ? "Quitar favorito" : "Guardar favorito"}
@@ -112,17 +109,14 @@ export default function ProgramCard({
                     </form>
 
                     {locked ? (
-                        <div className="inline-flex items-center gap-2 rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-2 text-sm text-amber-100">
+                        <div className="inline-flex items-center gap-2 rounded-md border border-social-deep bg-social/10 px-3 py-2 text-sm font-semibold text-social-deep">
                             <Lock size={14} />
                             Requiere acceso premium
                         </div>
                     ) : (
-                        <Link
-                            href={`/app/session/${program.slug}`}
-                            className="inline-flex items-center gap-2 rounded-full border border-teal-300/30 bg-gradient-to-r from-teal-300/10 to-sky-400/10 px-4 py-2 text-sm font-medium text-teal-100 transition-colors hover:border-teal-300/50 hover:from-teal-300/20 hover:to-sky-400/20"
-                        >
+                        <Link href={`/app/session/${program.slug}`} className="lm-btn">
                             {completionCount > 0 ? <RotateCcw size={16} /> : <PlayCircle size={16} />}
-                            {completionCount > 0 ? "Repetir sesion" : "Iniciar sesion"}
+                            {completionCount > 0 ? "Repetir sesión" : "Iniciar sesión"}
                         </Link>
                     )}
                 </div>

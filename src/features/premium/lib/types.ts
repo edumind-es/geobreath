@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
- * Author: Luis Vilela Acuna
+ * Author: Luis Vilela Acuña
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -22,10 +22,10 @@ export type PremiumGoal = (typeof premiumGoals)[number];
 
 export const premiumGoalLabels: Record<PremiumGoal, string> = {
     focus: "Focus y estudio",
-    sleep: "Sueno y descanso",
-    calm: "Calma y regulacion",
-    speaking: "Speaking y exposicion",
-    recovery: "Recuperacion y reset",
+    sleep: "Sueño y descanso",
+    calm: "Calma y regulación",
+    speaking: "Speaking y exposición",
+    recovery: "Recuperación y reset",
 };
 
 export interface PremiumProfile {

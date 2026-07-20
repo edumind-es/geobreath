@@ -1,6 +1,7 @@
 {
   "name": "geobreath_react",
   "version": "0.1.0",
+  "author": "Luis Vilela Acuña <contacto@edumind.es>",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,7 +10,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@edumind/footer": "^1.0.0",
     "framer-motion": "^12.23.25",
     "lucide-react": "^0.556.0",
     "next": "16.0.7",
@@ -27,6 +27,5 @@
     "eslint-config-next": "16.0.7",
     "tailwindcss": "^4",
     "typescript": "^5"
-  },
-  "license": "(AGPL-3.0-or-later OR EUPL-1.2)"
+  }
 }

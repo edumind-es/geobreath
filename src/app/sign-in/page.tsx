@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
- * Author: Luis Vilela Acuna
+ * Author: Luis Vilela Acuña
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -36,78 +36,69 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
     return (
         <main className="mx-auto flex min-h-screen max-w-5xl items-center justify-center px-4 py-8 md:px-6">
             <div className="grid w-full max-w-4xl gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-                {/* Left: value proposition */}
-                <section className="rounded-[36px] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(61,218,215,0.18),transparent_30%),linear-gradient(180deg,rgba(7,12,24,0.92),rgba(2,6,23,0.96))] p-6 shadow-[0_30px_90px_rgba(2,6,23,0.45)] md:p-8">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.28em] text-slate-300">
-                        <Sparkles size={14} className="text-teal-300" />
+                {/* Izquierda: propuesta de valor */}
+                <section className="rounded-2xl border-2 border-rule-strong bg-paper-2 p-6 md:p-8">
+                    <div className="inline-flex items-center gap-2 border border-interior-deep px-3 py-1 font-mono text-[11px] uppercase tracking-[0.2em] text-interior-deep">
+                        <Sparkles size={14} />
                         GeoBreath Premium
                     </div>
 
-                    <h1 className="mt-5 font-[family:var(--font-display)] text-4xl font-semibold tracking-tight text-slate-50 md:text-5xl">
-                        Tu experiencia de respiracion personalizada
+                    <h1 className="mt-5 font-display text-4xl font-bold tracking-tight text-ink md:text-5xl">
+                        Tu experiencia de respiración personalizada
                     </h1>
 
-                    <p className="mt-4 max-w-xl text-sm leading-7 text-slate-300 md:text-base">
+                    <p className="mt-4 max-w-xl text-sm leading-7 text-ink-2 md:text-base">
                         Accede a tu perfil, historial de sesiones y programas adaptados a tus objetivos. Todo en un espacio privado y continuo.
                     </p>
 
-                    <div className="mt-8 grid gap-3">
-                        <div className="rounded-[24px] border border-white/10 bg-white/5 p-4">
-                            <p className="text-[11px] uppercase tracking-[0.28em] text-slate-500">Programas guiados</p>
-                            <p className="mt-2 text-sm leading-7 text-slate-300">
-                                Rutinas de respiracion disenadas para foco, sueno, calma y regulacion emocional.
+                    <div className="mt-8 border-t-2 border-rule-strong">
+                        <div className="border-b border-rule py-4">
+                            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-2">Programas guiados</p>
+                            <p className="mt-2 text-sm leading-7 text-ink-2">
+                                Rutinas de respiración diseñadas para foco, sueño, calma y regulación emocional.
                             </p>
                         </div>
-                        <div className="rounded-[24px] border border-white/10 bg-white/5 p-4">
-                            <p className="text-[11px] uppercase tracking-[0.28em] text-slate-500">Seguimiento personal</p>
-                            <p className="mt-2 text-sm leading-7 text-slate-300">
-                                Historial de sesiones, racha de practica y sugerencias basadas en tu objetivo.
+                        <div className="border-b border-rule py-4">
+                            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-2">Seguimiento personal</p>
+                            <p className="mt-2 text-sm leading-7 text-ink-2">
+                                Historial de sesiones, racha de práctica y sugerencias basadas en tu objetivo.
                             </p>
                         </div>
                     </div>
                 </section>
 
-                {/* Right: login form */}
-                <section className="rounded-[36px] border border-white/10 bg-[rgba(7,12,24,0.9)] p-6 shadow-[0_30px_90px_rgba(2,6,23,0.32)] md:p-8">
+                {/* Derecha: formulario de acceso */}
+                <section className="rounded-2xl border border-rule bg-paper-2 p-6 md:p-8">
                     <div className="flex items-center gap-3">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-300/10 text-teal-100">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-mental/10 text-mental-deep">
                             <ShieldCheck size={20} />
                         </div>
                         <div>
-                            <p className="text-[11px] uppercase tracking-[0.28em] text-slate-500">Acceso seguro</p>
-                            <h2 className="mt-1 text-2xl font-semibold text-slate-50">Inicia sesion</h2>
+                            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-2">Acceso seguro</p>
+                            <h2 className="mt-1 font-display text-2xl font-bold text-ink">Inicia sesión</h2>
                         </div>
                     </div>
 
-                    <p className="mt-5 text-sm leading-7 text-slate-300">
+                    <p className="mt-5 text-sm leading-7 text-ink-2">
                         Usa tu cuenta EDUmind para acceder a tu espacio premium. El acceso es seguro y privado.
                     </p>
 
-                    <div className="mt-8 flex flex-col gap-3">
+                    <div className="mt-8 flex flex-col gap-4">
                         {isAuthentikConfigured ? (
                             <form action={handleSignIn}>
-                                <button
-                                    type="submit"
-                                    className="flex w-full items-center justify-center gap-2 rounded-[22px] bg-gradient-to-r from-teal-300 to-sky-400 px-4 py-3 text-sm font-semibold text-slate-950 shadow-[0_14px_36px_rgba(61,218,215,0.22)] transition-transform hover:scale-[1.01]"
-                                >
+                                <button type="submit" className="lm-btn h-12 w-full">
                                     <ShieldCheck size={18} />
                                     Entrar con mi cuenta EDUmind
                                 </button>
                             </form>
                         ) : (
-                            <Link
-                                href="/app"
-                                className="flex items-center justify-center gap-2 rounded-[22px] border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-slate-100 transition-colors hover:border-white/20 hover:bg-white/[0.08]"
-                            >
+                            <Link href="/app" className="lm-btn-ghost h-12 w-full">
                                 Explorar sin cuenta
                             </Link>
                         )}
 
-                        <Link
-                            href="/"
-                            className="text-center text-sm text-slate-400 transition-colors hover:text-slate-200"
-                        >
-                            Volver a la experiencia publica
+                        <Link href="/" className="text-center text-sm text-ink-2 underline-offset-4 transition-colors hover:text-ink hover:underline">
+                            Volver a la experiencia pública
                         </Link>
                     </div>
                 </section>

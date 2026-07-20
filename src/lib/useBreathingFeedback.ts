@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
- * Author: Luis Vilela Acuna
+ * Author: Luis Vilela Acuña
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -45,12 +45,37 @@ const speechLocaleMap: Record<Language, string> = {
     zh: "zh-CN",
 };
 
+// Idiomas con clips de voz neural pregrabados (alta calidad) en /public/audio.
+// El resto (p. ej. euskera, sin voz neural gratuita) cae al sintetizador del navegador.
+const CLIP_LANGS = new Set<Language>(["es", "gl", "cat", "en", "zh"]);
+
 export function useBreathingFeedback(phase: Phase, isPlaying: boolean, options: FeedbackOptions) {
     const audioContextRef = useRef<AudioContext | null>(null);
     const masterGainRef = useRef<GainNode | null>(null);
     const lastPhaseRef = useRef<Phase | null>(null);
     const lastFeedbackSignatureRef = useRef("");
     const wasPlayingRef = useRef(false);
+    const voiceClipsRef = useRef<Partial<Record<Phase, HTMLAudioElement>>>({});
+
+    // Precarga de los clips de voz del idioma activo (si los tiene)
+    useEffect(() => {
+        if (!CLIP_LANGS.has(options.lang)) {
+            voiceClipsRef.current = {};
+            return;
+        }
+        const phases: Phase[] = ["I", "E", "H"];
+        const clips: Partial<Record<Phase, HTMLAudioElement>> = {};
+        phases.forEach((ph) => {
+            const audio = new Audio(`/audio/${options.lang}/${ph}.mp3`);
+            audio.preload = "auto";
+            audio.volume = 0.9;
+            clips[ph] = audio;
+        });
+        voiceClipsRef.current = clips;
+        return () => {
+            voiceClipsRef.current = {};
+        };
+    }, [options.lang]);
 
     useEffect(() => {
         const initializeAudio = () => {
@@ -148,21 +173,40 @@ export function useBreathingFeedback(phase: Phase, isPlaying: boolean, options: 
                 }
             }
 
-            if (options.tts && "speechSynthesis" in window) {
-                const label = activePhase === "I" ? options.labels.inspire : activePhase === "E" ? options.labels.exhale : options.labels.hold;
-                const utterance = new SpeechSynthesisUtterance(label);
-                const voices = window.speechSynthesis.getVoices();
-                const targetLocale = speechLocaleMap[options.lang];
-                const matchingVoice = voices.find((voice) => voice.lang === targetLocale) ?? voices.find((voice) => voice.lang.startsWith(targetLocale.split("-")[0]));
+            if (options.tts) {
+                // Sintetizador del navegador (respaldo para idiomas sin clip o si el clip falla)
+                const speakFallback = () => {
+                    if (!("speechSynthesis" in window)) return;
+                    const label = activePhase === "I" ? options.labels.inspire : activePhase === "E" ? options.labels.exhale : options.labels.hold;
+                    const utterance = new SpeechSynthesisUtterance(label);
+                    const voices = window.speechSynthesis.getVoices();
+                    const targetLocale = speechLocaleMap[options.lang];
+                    const matchingVoice = voices.find((voice) => voice.lang === targetLocale) ?? voices.find((voice) => voice.lang.startsWith(targetLocale.split("-")[0]));
 
-                utterance.lang = targetLocale;
-                utterance.rate = 0.88;
-                utterance.pitch = activePhase === "I" ? 1.05 : activePhase === "E" ? 0.95 : 1;
-                utterance.volume = 0.9;
-                if (matchingVoice) utterance.voice = matchingVoice;
+                    utterance.lang = targetLocale;
+                    utterance.rate = 0.88;
+                    utterance.pitch = activePhase === "I" ? 1.05 : activePhase === "E" ? 0.95 : 1;
+                    utterance.volume = 0.9;
+                    if (matchingVoice) utterance.voice = matchingVoice;
 
-                window.speechSynthesis.cancel();
-                window.speechSynthesis.speak(utterance);
+                    window.speechSynthesis.cancel();
+                    window.speechSynthesis.speak(utterance);
+                };
+
+                // Preferencia: clip de voz neural pregrabado; si no hay o falla, respaldo
+                const clip = voiceClipsRef.current[activePhase];
+                if (clip) {
+                    window.speechSynthesis?.cancel();
+                    // Cortar cualquier clip previo para evitar solapes a ritmos rápidos
+                    Object.values(voiceClipsRef.current).forEach((other) => {
+                        if (other && other !== clip) other.pause();
+                    });
+                    clip.currentTime = 0;
+                    const playPromise = clip.play();
+                    if (playPromise) playPromise.catch(() => speakFallback());
+                } else {
+                    speakFallback();
+                }
             }
         };
 

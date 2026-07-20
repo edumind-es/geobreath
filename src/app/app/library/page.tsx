@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
- * Author: Luis Vilela Acuna
+ * Author: Luis Vilela Acuña
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -28,41 +28,41 @@ export default async function PremiumLibraryPage() {
 
     return (
         <div className="grid gap-6">
-            <section className="rounded-[32px] border border-white/10 bg-[rgba(8,14,27,0.84)] p-6 shadow-[0_22px_54px_rgba(2,6,23,0.26)]">
+            <section className="rounded-2xl border-2 border-rule-strong bg-paper-2 p-6">
                 <div className="flex flex-wrap items-start justify-between gap-4">
                     <div>
-                        <p className="text-[11px] uppercase tracking-[0.28em] text-slate-500">Biblioteca</p>
-                        <h1 className="mt-3 font-[family:var(--font-display)] text-3xl font-semibold text-slate-50 md:text-4xl">
-                            Programas de respiracion
+                        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-2">Biblioteca</p>
+                        <h1 className="mt-3 font-display text-3xl font-bold text-ink md:text-4xl">
+                            Programas de respiración
                         </h1>
-                        <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300">
-                            Rutinas de respiracion disenadas por objetivo: foco, sueno, calma, regulacion y preparacion para exponer. Cada programa tiene su cadencia, duracion y nivel de acceso.
+                        <p className="mt-3 max-w-3xl text-sm leading-7 text-ink-2">
+                            Rutinas de respiración diseñadas por objetivo: foco, sueño, calma, regulación y preparación para exponer. Cada programa tiene su cadencia, duración y nivel de acceso.
                         </p>
                     </div>
 
                     <div className="grid gap-3 sm:grid-cols-3">
-                        <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-teal-100">
+                        <div className="rounded-xl border border-rule bg-paper p-4">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-mental/10 text-mental-deep">
                                 <BookMarked size={18} />
                             </div>
-                            <p className="mt-3 text-2xl font-semibold text-slate-50">{premiumPrograms.length}</p>
-                            <p className="text-sm text-slate-400">programas disponibles</p>
+                            <p className="mt-3 font-display text-2xl font-bold text-ink">{premiumPrograms.length}</p>
+                            <p className="text-sm text-ink-2">programas disponibles</p>
                         </div>
-                        <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-fuchsia-100">
+                        <div className="rounded-xl border border-rule bg-paper p-4">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-interior/10 text-interior-deep">
                                 <Crown size={18} />
                             </div>
-                            <p className="mt-3 text-2xl font-semibold text-slate-50">
+                            <p className="mt-3 font-display text-2xl font-bold text-ink">
                                 {premiumPrograms.filter((program) => program.access === "premium").length}
                             </p>
-                            <p className="text-sm text-slate-400">exclusivos premium</p>
+                            <p className="text-sm text-ink-2">exclusivos premium</p>
                         </div>
-                        <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-emerald-100">
+                        <div className="rounded-xl border border-rule bg-paper p-4">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emocional/10 text-emocional-deep">
                                 <WandSparkles size={18} />
                             </div>
-                            <p className="mt-3 text-2xl font-semibold text-slate-50">{experience.summary.favoriteCount}</p>
-                            <p className="text-sm text-slate-400">favoritos guardados</p>
+                            <p className="mt-3 font-display text-2xl font-bold text-ink">{experience.summary.favoriteCount}</p>
+                            <p className="text-sm text-ink-2">favoritos guardados</p>
                         </div>
                     </div>
                 </div>

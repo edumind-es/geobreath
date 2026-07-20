@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
- * Author: Luis Vilela Acuna
+ * Author: Luis Vilela Acuña
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -20,11 +20,32 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { geoBreathSequence, getPolygonPoints, getPointOnTrail, Phase } from "@/lib/geoLogic";
+import {
+    easeBreath,
+    geoBreathSequence,
+    getPointAtLapFraction,
+    getPolygonPoints,
+    Phase,
+    PhaseStep,
+} from "@/lib/geoLogic";
 
 const STAGE_SIZE = 320;
 const CENTER = STAGE_SIZE / 2;
-const RADIUS = 124;
+const RADIUS = 118;
+
+// Paleta de fase — Cinco Mundos en su variante noche (legible sobre oscuro, calmada)
+const PHASE_COLOR: Record<Phase, string> = {
+    I: "#6aa3bf", // mental — inspira (sereno)
+    H: "#f2bc55", // social — aguanta (atención cálida)
+    E: "#8cc26a", // emocional — exhala (soltar)
+};
+
+// Respiración de escala del conjunto: se abre al inspirar, se recoge al exhalar
+const PHASE_SCALE: Record<Phase, number> = { I: 1.06, H: 1.0, E: 0.93 };
+
+// Nº de destellos que forman la estela tipo cometa detrás del punto guía
+const TRAIL_STEPS = 6;
+const TRAIL_GAP = 0.014; // fracción de vuelta entre destellos
 
 interface BreathingStageTranslations {
     inspire: string;
@@ -39,6 +60,8 @@ interface BreathingStageProps {
     onPhaseChange?: (phase: Phase) => void;
     onCycleComplete?: () => void;
     translations?: BreathingStageTranslations;
+    // Patrón con tiempos por fase (opcional). Si se pasa, manda sobre n/secPerPhase.
+    pattern?: PhaseStep[];
 }
 
 export default function BreathingStage({
@@ -48,27 +71,43 @@ export default function BreathingStage({
     onPhaseChange,
     onCycleComplete,
     translations,
+    pattern,
 }: BreathingStageProps) {
     const validSides = typeof n === "number" && !Number.isNaN(n) && n >= 2 ? n : 3;
-    const t = translations ?? {
-        inspire: "Inspira",
-        exhale: "Exhala",
-        hold: "Aguanta",
-    };
+    const t = translations ?? { inspire: "Inspira", exhale: "Exhala", hold: "Aguanta" };
 
-    const [phase, setPhase] = useState<Phase>(() => geoBreathSequence(validSides)[0] ?? "I");
-    const [dotPos, setDotPos] = useState<[number, number]>(() => getPointOnTrail(validSides, 0, 0, CENTER, CENTER, RADIUS));
+    // Pasos del ciclo: patrón con tiempos por fase, o ritmo uniforme (portada).
+    const steps: PhaseStep[] =
+        pattern && pattern.length >= 2
+            ? pattern
+            : geoBreathSequence(validSides).map((ph) => ({ phase: ph, seconds: secPerPhase }));
+    const sides = steps.length;
+    const isCircle = sides === 2;
 
-    const phaseRef = useRef<Phase>(geoBreathSequence(validSides)[0] ?? "I");
+    const [phase, setPhase] = useState<Phase>(() => steps[0]?.phase ?? "I");
+    // Fracción global de la vuelta (0→1). De ella derivamos punto, estela y progreso.
+    const [lapFraction, setLapFraction] = useState(0);
+    const [reduceMotion, setReduceMotion] = useState(false);
+
+    const phaseRef = useRef<Phase>(steps[0]?.phase ?? "I");
     const pauseOffsetRef = useRef(0);
     const rafRef = useRef<number | null>(null);
 
-    const points = getPolygonPoints(validSides, CENTER, CENTER, RADIUS);
+    // Respeto a la preferencia de movimiento reducido
+    useEffect(() => {
+        const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const update = () => setReduceMotion(mq.matches);
+        update();
+        mq.addEventListener("change", update);
+        return () => mq.removeEventListener("change", update);
+    }, []);
 
-    const polygonPath =
-        validSides === 2
-            ? `M ${CENTER + RADIUS} ${CENTER} A ${RADIUS} ${RADIUS} 0 1 1 ${CENTER - RADIUS} ${CENTER} A ${RADIUS} ${RADIUS} 0 1 1 ${CENTER + RADIUS} ${CENTER}`
-            : points.map((point, index) => `${index === 0 ? "M" : "L"} ${point[0]} ${point[1]}`).join(" ") + " Z";
+    const points = getPolygonPoints(sides, CENTER, CENTER, RADIUS);
+
+    // Camino de la figura (polígono o círculo) — empieza arriba, sentido horario
+    const figurePath = isCircle
+        ? `M ${CENTER},${CENTER - RADIUS} A ${RADIUS},${RADIUS} 0 1 1 ${CENTER},${CENTER + RADIUS} A ${RADIUS},${RADIUS} 0 1 1 ${CENTER},${CENTER - RADIUS}`
+        : points.map((p, i) => `${i === 0 ? "M" : "L"} ${p[0]} ${p[1]}`).join(" ") + " Z";
 
     useEffect(() => {
         if (!isPlaying) {
@@ -78,25 +117,44 @@ export default function BreathingStage({
             return;
         }
 
+        // Reconstruye los pasos y los tiempos de inicio acumulados de cada fase
+        const activeSteps: PhaseStep[] =
+            pattern && pattern.length >= 2
+                ? pattern
+                : geoBreathSequence(validSides).map((ph) => ({ phase: ph, seconds: secPerPhase }));
+        const sidesN = activeSteps.length;
+        const starts: number[] = [];
+        let total = 0;
+        for (const step of activeSteps) {
+            starts.push(total);
+            total += step.seconds;
+        }
+        if (total <= 0) return;
+
         let lastFrameTime = performance.now();
-        let accumulated = pauseOffsetRef.current;
-        const activeSequence = geoBreathSequence(validSides);
+        let accumulated = pauseOffsetRef.current % total;
 
         const animate = (time: number) => {
             const deltaSeconds = (time - lastFrameTime) / 1000;
             lastFrameTime = time;
             accumulated += deltaSeconds;
 
-            const totalCycleTime = activeSequence.length * secPerPhase;
-            if (accumulated >= totalCycleTime) {
-                accumulated %= totalCycleTime;
+            if (accumulated >= total) {
+                accumulated %= total;
                 onCycleComplete?.();
             }
 
-            const exactIndex = accumulated / secPerPhase;
-            const phaseIndex = Math.max(0, Math.floor(exactIndex)) % activeSequence.length;
-            const progress = exactIndex - Math.floor(exactIndex);
-            const nextPhase = activeSequence[phaseIndex] ?? "I";
+            // Paso activo según el tiempo acumulado y su progreso local (0→1)
+            let idx = 0;
+            for (let i = sidesN - 1; i >= 0; i--) {
+                if (accumulated >= starts[i]) {
+                    idx = i;
+                    break;
+                }
+            }
+            const step = activeSteps[idx];
+            const local = step.seconds > 0 ? (accumulated - starts[idx]) / step.seconds : 0;
+            const nextPhase = step.phase;
 
             if (phaseRef.current !== nextPhase) {
                 phaseRef.current = nextPhase;
@@ -104,7 +162,10 @@ export default function BreathingStage({
                 onPhaseChange?.(nextPhase);
             }
 
-            setDotPos(getPointOnTrail(validSides, phaseIndex, progress, CENTER, CENTER, RADIUS));
+            // Avance suavizado por fase → la figura se dibuja «respirando»
+            const eased = easeBreath(nextPhase, local);
+            setLapFraction((idx + eased) / sidesN);
+
             pauseOffsetRef.current = accumulated;
             rafRef.current = requestAnimationFrame(animate);
         };
@@ -115,85 +176,125 @@ export default function BreathingStage({
             if (rafRef.current) cancelAnimationFrame(rafRef.current);
             rafRef.current = null;
         };
-    }, [isPlaying, onCycleComplete, onPhaseChange, secPerPhase, validSides]);
+    }, [isPlaying, onCycleComplete, onPhaseChange, secPerPhase, validSides, pattern]);
 
-    const auraVariants = {
-        I: { scale: 1.18, opacity: 0.55, filter: "blur(12px)" },
-        E: { scale: 0.88, opacity: 0.32, filter: "blur(6px)" },
-        H: { scale: 1.02, opacity: 0.44, filter: "blur(8px)" },
-    };
-
-    const colorMap: Record<Phase, string> = {
-        I: "#3ddad7",
-        E: "#3c7dff",
-        H: "#90f0b3",
-    };
-
+    const color = PHASE_COLOR[phase];
     const currentLabel = phase === "I" ? t.inspire : phase === "E" ? t.exhale : t.hold;
 
+    const dot = getPointAtLapFraction(sides, lapFraction, CENTER, CENTER, RADIUS);
+
+    // Destellos de la estela (posiciones ligeramente por detrás del punto guía)
+    const trail = reduceMotion
+        ? []
+        : Array.from({ length: TRAIL_STEPS }, (_, i) => {
+              const gf = lapFraction - (i + 1) * TRAIL_GAP;
+              if (gf <= 0) return null;
+              return getPointAtLapFraction(sides, gf, CENTER, CENTER, RADIUS);
+          }).filter((p): p is [number, number] => p !== null);
+
     return (
-        <div className="relative flex h-full w-full items-center justify-center p-2 sm:p-6">
-            <svg viewBox={`0 0 ${STAGE_SIZE} ${STAGE_SIZE}`} className="aspect-square w-full max-w-[min(100%,39rem,66vh)] overflow-visible" role="img" aria-label={currentLabel}>
+        <div
+            data-lm-theme="noche"
+            className="geo-stage relative flex h-full w-full items-center justify-center overflow-hidden rounded-[1.25rem] p-2 sm:p-6"
+        >
+            <svg
+                viewBox={`0 0 ${STAGE_SIZE} ${STAGE_SIZE}`}
+                className="aspect-square w-full max-w-[min(100%,39rem,66vh)] overflow-visible"
+                role="img"
+                aria-label={currentLabel}
+            >
                 <defs>
-                    <linearGradient id="lmeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#3ddad7" />
-                        <stop offset="100%" stopColor="#3c7dff" />
-                    </linearGradient>
-                    <filter id="lmeGlow">
-                        <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+                    <radialGradient id="geoVignette" cx="50%" cy="42%" r="60%">
+                        <stop offset="0%" stopColor={color} stopOpacity="0.14" />
+                        <stop offset="70%" stopColor={color} stopOpacity="0" />
+                    </radialGradient>
+                    <filter id="geoGlow" x="-60%" y="-60%" width="220%" height="220%">
+                        <feGaussianBlur stdDeviation="3.4" result="blur" />
                         <feMerge>
-                            <feMergeNode in="coloredBlur" />
+                            <feMergeNode in="blur" />
                             <feMergeNode in="SourceGraphic" />
                         </feMerge>
                     </filter>
                 </defs>
 
-                <motion.path
-                    d={validSides === 2 ? `M ${CENTER},${CENTER} m -${RADIUS},0 a ${RADIUS},${RADIUS} 0 1,0 ${RADIUS * 2},0 a ${RADIUS},${RADIUS} 0 1,0 -${RADIUS * 2},0` : polygonPath}
-                    fill="none"
-                    stroke={colorMap[phase]}
-                    strokeWidth="5"
-                    initial="I"
-                    animate={phase}
-                    variants={auraVariants}
+                {/* Halo de fase */}
+                <circle cx={CENTER} cy={CENTER} r={RADIUS + 6} fill="url(#geoVignette)" />
+
+                {/* Figura que respira de escala */}
+                <motion.g
+                    animate={{ scale: reduceMotion ? 1 : PHASE_SCALE[phase] }}
                     transition={{ duration: secPerPhase, ease: "easeInOut" }}
-                    className="opacity-55"
-                />
+                    style={{ transformBox: "fill-box", transformOrigin: "center" }}
+                >
+                    {/* Pista base tenue */}
+                    <path d={figurePath} fill="none" stroke="rgba(236,232,221,0.16)" strokeWidth="2" />
 
-                {validSides === 2 ? (
-                    <circle cx={CENTER} cy={CENTER} r={RADIUS} fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="2.2" />
-                ) : (
-                    <path d={polygonPath} fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="2.2" />
-                )}
-
-                {points.map((point, index) => (
-                    <circle
-                        key={`${point[0]}-${point[1]}`}
-                        cx={point[0]}
-                        cy={point[1]}
-                        r={index === 0 ? "5.5" : "4.5"}
-                        fill={index === 0 ? "#f8fafc" : "rgba(255,255,255,0.45)"}
+                    {/* Progreso: dibuja la figura conforme avanza la respiración */}
+                    <path
+                        d={figurePath}
+                        fill="none"
+                        stroke={color}
+                        strokeWidth="4.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        pathLength={1}
+                        style={{
+                            strokeDasharray: 1,
+                            strokeDashoffset: 1 - lapFraction,
+                            transition: "stroke 0.6s ease",
+                        }}
+                        opacity={0.92}
                     />
-                ))}
 
-                <circle cx={dotPos[0]} cy={dotPos[1]} r="9.5" fill={colorMap[phase]} filter="url(#lmeGlow)" />
+                    {/* Vértices (el de inicio, destacado) */}
+                    {!isCircle &&
+                        points.map((p, index) => (
+                            <circle
+                                key={`${p[0]}-${p[1]}`}
+                                cx={p[0]}
+                                cy={p[1]}
+                                r={index === 0 ? 4.6 : 3.2}
+                                fill={index === 0 ? "#f4f1e8" : "rgba(236,232,221,0.5)"}
+                            />
+                        ))}
 
-                <circle cx={CENTER} cy={CENTER} r="62" fill="rgba(4, 10, 28, 0.82)" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
+                    {/* Estela tipo cometa */}
+                    {trail.map((p, i) => {
+                        const k = 1 - i / TRAIL_STEPS;
+                        return (
+                            <circle
+                                key={`trail-${i}`}
+                                cx={p[0]}
+                                cy={p[1]}
+                                r={2 + k * 4.5}
+                                fill={color}
+                                opacity={0.06 + k * 0.28}
+                            />
+                        );
+                    })}
+
+                    {/* Punto guía */}
+                    <circle cx={dot[0]} cy={dot[1]} r={8.5} fill={color} filter="url(#geoGlow)" />
+                    <circle cx={dot[0]} cy={dot[1]} r={3.4} fill="#fbfaf6" />
+                </motion.g>
+
+                {/* Lectura central (fuera de la escala para que el texto quede estable) */}
+                <circle cx={CENTER} cy={CENTER} r={58} fill="rgba(8,20,23,0.72)" stroke="rgba(236,232,221,0.12)" strokeWidth="1.2" />
                 <text
                     x={CENTER}
                     y={CENTER - 12}
                     textAnchor="middle"
-                    fill="rgba(148,163,184,0.95)"
-                    style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase" }}
+                    fill="rgba(236,232,221,0.6)"
+                    style={{ fontFamily: "var(--lm-mono)", fontSize: "10px", letterSpacing: "0.22em", textTransform: "uppercase" }}
                 >
-                    Breath
+                    Respira
                 </text>
                 <text
                     x={CENTER}
                     y={CENTER + 20}
                     textAnchor="middle"
-                    fill="#ffffff"
-                    style={{ fontSize: "30px", fontWeight: 700, letterSpacing: "0" }}
+                    fill="#f4f1e8"
+                    style={{ fontFamily: "var(--lm-display)", fontSize: "27px", fontWeight: 700 }}
                 >
                     {currentLabel}
                 </text>
