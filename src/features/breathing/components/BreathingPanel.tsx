@@ -27,8 +27,9 @@ export default function BreathingPanel({ session }: BreathingPanelProps) {
         embedded,
         focusMode,
         isPlaying,
-        sides,
         seconds,
+        pattern,
+        ladosEfectivos,
         activeShapeLabel,
         activeSupportCount,
         activePhaseLabel,
@@ -103,7 +104,7 @@ export default function BreathingPanel({ session }: BreathingPanelProps) {
                 <div className="pointer-events-none absolute right-4 top-4 z-20 hidden w-64 rounded-xl border border-white/10 bg-[rgba(8,20,23,0.78)] p-4 backdrop-blur-md sm:block">
                     <div className="flex items-center justify-between gap-3">
                         <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/55">
-                            {t.challenge} {sides} {t.sides}
+                            {t.challenge} {ladosEfectivos} {t.sides}
                         </p>
                         <p className="text-sm font-semibold text-white/90">
                             {cycles} / {challengeGoal}
@@ -125,10 +126,17 @@ export default function BreathingPanel({ session }: BreathingPanelProps) {
                     </div>
                 ) : null}
 
+                {/* Anuncio de fase para lectores de pantalla: sin esto, quien no ve
+                    la figura no sabe cuándo inspirar. */}
+                <p className="sr-only" role="status" aria-live="polite">
+                    {activePhaseLabel}
+                </p>
+
                 <BreathingStage
-                    key={sides}
-                    n={sides}
+                    key={ladosEfectivos}
+                    n={ladosEfectivos}
                     secPerPhase={seconds}
+                    pattern={pattern}
                     isPlaying={isPlaying}
                     onCycleComplete={handleCycle}
                     onPhaseChange={setCurrentPhase}

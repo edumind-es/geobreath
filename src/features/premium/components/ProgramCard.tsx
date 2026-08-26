@@ -27,6 +27,7 @@ interface ProgramCardProps {
     lastCompletedAt?: string | null;
     program: PremiumProgram;
     premiumUnlocked: boolean;
+    /** De dónde se abre la tarjeta. Lo pasan las páginas; hoy no altera el render. */
     source?: "dashboard" | "library";
 }
 
@@ -36,7 +37,6 @@ export default function ProgramCard({
     lastCompletedAt = null,
     program,
     premiumUnlocked,
-    source = "library",
 }: ProgramCardProps) {
     const locked = program.access === "premium" && !premiumUnlocked;
     const lastCompletedLabel = lastCompletedAt

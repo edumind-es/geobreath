@@ -73,6 +73,42 @@ export interface AppTranslations {
     ready: string;
     shortcuts: string;
     reset: string;
+    // Editor de tiempos respiratorios
+    rhythmEditor: string;
+    modeSimple: string;
+    modeAdvanced: string;
+    perSideHint: string;
+    freeStepsHint: string;
+    cycleDuration: string;
+    breathsPerMin: string;
+    addStep: string;
+    removeStep: string;
+    moveUp: string;
+    moveDown: string;
+    resetTimes: string;
+    customized: string;
+    holdWarning: string;
+    savePattern: string;
+    patternName: string;
+    myPatterns: string;
+    deletePattern: string;
+    storedLocally: string;
+    forgetData: string;
+    // Patrones con respaldo
+    guidedPatterns: string;
+    patternResonance: string;
+    patternResonanceDesc: string;
+    patternBox: string;
+    patternBoxDesc: string;
+    pattern478: string;
+    pattern478Desc: string;
+    patternSigh: string;
+    patternSighDesc: string;
+    // Modo aula
+    roundsTarget: string;
+    roundsTargetHint: string;
+    roundsFree: string;
+    roundsDone: string;
 }
 
 export const translations: Record<Language, AppTranslations> = {
@@ -129,7 +165,40 @@ export const translations: Record<Language, AppTranslations> = {
         shape6: "Hexágono",
         ready: "Listo para arrancar",
         shortcuts: "Atajos: espacio inicia o pausa, F activa foco y ? abre ayuda.",
-        reset: "Reiniciar reto"
+        reset: "Reiniciar reto",
+        rhythmEditor: "Tiempos de respiración",
+        modeSimple: "Simple",
+        modeAdvanced: "Avanzado",
+        perSideHint: "Ajusta cuánto dura cada lado de la figura.",
+        freeStepsHint: "Crea tu propio ciclo: añade, ordena y mide cada fase.",
+        cycleDuration: "Ciclo",
+        breathsPerMin: "resp/min",
+        addStep: "Añadir fase",
+        removeStep: "Quitar fase",
+        moveUp: "Subir",
+        moveDown: "Bajar",
+        resetTimes: "Ritmo uniforme",
+        customized: "Personalizado",
+        holdWarning: "Retención larga. Mantenla cómoda y sin ahogo, sobre todo con niñas y niños.",
+        savePattern: "Guardar",
+        patternName: "Nombre del patrón",
+        myPatterns: "Mis patrones",
+        deletePattern: "Borrar",
+        storedLocally: "Todo se guarda solo en este dispositivo.",
+        forgetData: "Borrar mis datos",
+        guidedPatterns: "Patrones con respaldo",
+        patternResonance: "Resonancia",
+        patternResonanceDesc: "≈5,5 respiraciones por minuto, la frecuencia de resonancia del barorreflejo.",
+        patternBox: "Caja 4-4-4-4",
+        patternBoxDesc: "Cuatro tiempos iguales. Foco y autocontrol.",
+        pattern478: "4-7-8",
+        pattern478Desc: "Exhalación alargada para bajar revoluciones.",
+        patternSigh: "Suspiro fisiológico",
+        patternSighDesc: "Doble inspiración y exhalación larga. Cinco minutos al día.",
+        roundsTarget: "Rondas",
+        roundsTargetHint: "La sesión se detiene sola al completarlas.",
+        roundsFree: "Libre",
+        roundsDone: "Rondas completadas"
     },
     gl: {
         inspire: "Inspira",
@@ -184,7 +253,40 @@ export const translations: Record<Language, AppTranslations> = {
         shape6: "Hexágono",
         ready: "Listo para comezar",
         shortcuts: "Atallos: espazo comeza ou pausa, F activa foco e ? abre axuda.",
-        reset: "Reiniciar reto"
+        reset: "Reiniciar reto",
+        rhythmEditor: "Tempos de respiración",
+        modeSimple: "Simple",
+        modeAdvanced: "Avanzado",
+        perSideHint: "Axusta canto dura cada lado da figura.",
+        freeStepsHint: "Crea o teu propio ciclo: engade, ordena e mide cada fase.",
+        cycleDuration: "Ciclo",
+        breathsPerMin: "resp/min",
+        addStep: "Engadir fase",
+        removeStep: "Quitar fase",
+        moveUp: "Subir",
+        moveDown: "Baixar",
+        resetTimes: "Ritmo uniforme",
+        customized: "Personalizado",
+        holdWarning: "Retención longa. Mantena cómoda e sen afogo, sobre todo coas nenas e nenos.",
+        savePattern: "Gardar",
+        patternName: "Nome do patrón",
+        myPatterns: "Os meus patróns",
+        deletePattern: "Borrar",
+        storedLocally: "Todo se garda só neste dispositivo.",
+        forgetData: "Borrar os meus datos",
+        guidedPatterns: "Patróns con respaldo",
+        patternResonance: "Resonancia",
+        patternResonanceDesc: "≈5,5 respiracións por minuto, a frecuencia de resonancia do barorreflexo.",
+        patternBox: "Caixa 4-4-4-4",
+        patternBoxDesc: "Catro tempos iguais. Foco e autocontrol.",
+        pattern478: "4-7-8",
+        pattern478Desc: "Exhalación alongada para baixar revolucións.",
+        patternSigh: "Suspiro fisiolóxico",
+        patternSighDesc: "Dobre inspiración e exhalación longa. Cinco minutos ao día.",
+        roundsTarget: "Roldas",
+        roundsTargetHint: "A sesión detense soa ao completalas.",
+        roundsFree: "Libre",
+        roundsDone: "Roldas completadas"
     },
     cat: {
         inspire: "Inspira",
@@ -239,7 +341,40 @@ export const translations: Record<Language, AppTranslations> = {
         shape6: "Hexàgon",
         ready: "A punt per començar",
         shortcuts: "Dreceres: espai inicia o pausa, F activa focus i ? obre ajuda.",
-        reset: "Reiniciar repte"
+        reset: "Reiniciar repte",
+        rhythmEditor: "Temps de respiració",
+        modeSimple: "Simple",
+        modeAdvanced: "Avançat",
+        perSideHint: "Ajusta quant dura cada costat de la figura.",
+        freeStepsHint: "Crea el teu propi cicle: afegeix, ordena i mesura cada fase.",
+        cycleDuration: "Cicle",
+        breathsPerMin: "resp/min",
+        addStep: "Afegir fase",
+        removeStep: "Treure fase",
+        moveUp: "Pujar",
+        moveDown: "Baixar",
+        resetTimes: "Ritme uniforme",
+        customized: "Personalitzat",
+        holdWarning: "Retenció llarga. Mantén-la còmoda i sense ofec, sobretot amb infants.",
+        savePattern: "Desar",
+        patternName: "Nom del patró",
+        myPatterns: "Els meus patrons",
+        deletePattern: "Esborrar",
+        storedLocally: "Tot es desa només en aquest dispositiu.",
+        forgetData: "Esborrar les meves dades",
+        guidedPatterns: "Patrons amb suport",
+        patternResonance: "Ressonància",
+        patternResonanceDesc: "≈5,5 respiracions per minut, la freqüència de ressonància del baroreflex.",
+        patternBox: "Caixa 4-4-4-4",
+        patternBoxDesc: "Quatre temps iguals. Focus i autocontrol.",
+        pattern478: "4-7-8",
+        pattern478Desc: "Exhalació allargada per baixar revolucions.",
+        patternSigh: "Sospir fisiològic",
+        patternSighDesc: "Doble inspiració i exhalació llarga. Cinc minuts al dia.",
+        roundsTarget: "Rondes",
+        roundsTargetHint: "La sessió s'atura sola en completar-les.",
+        roundsFree: "Lliure",
+        roundsDone: "Rondes completades"
     },
     eu: {
         inspire: "Arnasa hartu",
@@ -294,7 +429,40 @@ export const translations: Record<Language, AppTranslations> = {
         shape6: "Hexagonoa",
         ready: "Hasteko prest",
         shortcuts: "Lasterbideak: espazioak hasi edo gelditu, F fokua eta ? laguntza irekitzen du.",
-        reset: "Erronka berrabiarazi"
+        reset: "Erronka berrabiarazi",
+        rhythmEditor: "Arnasketa denborak",
+        modeSimple: "Sinplea",
+        modeAdvanced: "Aurreratua",
+        perSideHint: "Doitu figuraren alde bakoitzak zenbat irauten duen.",
+        freeStepsHint: "Sortu zure zikloa: gehitu, ordenatu eta neurtu fase bakoitza.",
+        cycleDuration: "Zikloa",
+        breathsPerMin: "arn/min",
+        addStep: "Gehitu fasea",
+        removeStep: "Kendu fasea",
+        moveUp: "Igo",
+        moveDown: "Jaitsi",
+        resetTimes: "Erritmo uniformea",
+        customized: "Pertsonalizatua",
+        holdWarning: "Eusteko denbora luzea. Mantendu erosoa eta itolarririk gabe, batez ere haurrekin.",
+        savePattern: "Gorde",
+        patternName: "Ereduaren izena",
+        myPatterns: "Nire ereduak",
+        deletePattern: "Ezabatu",
+        storedLocally: "Dena gailu honetan bakarrik gordetzen da.",
+        forgetData: "Ezabatu nire datuak",
+        guidedPatterns: "Oinarri zientifikoa duten ereduak",
+        patternResonance: "Erresonantzia",
+        patternResonanceDesc: "≈5,5 arnasketa minutuko, barorreflexuaren erresonantzia maiztasuna.",
+        patternBox: "Kutxa 4-4-4-4",
+        patternBoxDesc: "Lau denbora berdin. Fokua eta autokontrola.",
+        pattern478: "4-7-8",
+        pattern478Desc: "Arnasa botatzea luzatuta, erritmoa jaisteko.",
+        patternSigh: "Hasperen fisiologikoa",
+        patternSighDesc: "Arnasa bi aldiz hartu eta luze bota. Bost minutu egunean.",
+        roundsTarget: "Txandak",
+        roundsTargetHint: "Saioa bakarrik gelditzen da osatzean.",
+        roundsFree: "Askea",
+        roundsDone: "Osatutako txandak"
     },
     en: {
         inspire: "Inhale",
@@ -349,7 +517,40 @@ export const translations: Record<Language, AppTranslations> = {
         shape6: "Hexagon",
         ready: "Ready to begin",
         shortcuts: "Shortcuts: space starts or pauses, F toggles focus and ? opens help.",
-        reset: "Reset challenge"
+        reset: "Reset challenge",
+        rhythmEditor: "Breathing times",
+        modeSimple: "Simple",
+        modeAdvanced: "Advanced",
+        perSideHint: "Set how long each side of the shape lasts.",
+        freeStepsHint: "Build your own cycle: add, reorder and time every phase.",
+        cycleDuration: "Cycle",
+        breathsPerMin: "breaths/min",
+        addStep: "Add phase",
+        removeStep: "Remove phase",
+        moveUp: "Move up",
+        moveDown: "Move down",
+        resetTimes: "Even rhythm",
+        customized: "Customised",
+        holdWarning: "Long hold. Keep it comfortable and free of air hunger, especially with children.",
+        savePattern: "Save",
+        patternName: "Pattern name",
+        myPatterns: "My patterns",
+        deletePattern: "Delete",
+        storedLocally: "Everything is stored on this device only.",
+        forgetData: "Delete my data",
+        guidedPatterns: "Evidence-based patterns",
+        patternResonance: "Resonance",
+        patternResonanceDesc: "≈5.5 breaths per minute, the resonance frequency of the baroreflex.",
+        patternBox: "Box 4-4-4-4",
+        patternBoxDesc: "Four equal counts. Focus and self-control.",
+        pattern478: "4-7-8",
+        pattern478Desc: "A longer exhale to wind down.",
+        patternSigh: "Physiological sigh",
+        patternSighDesc: "Double inhale and long exhale. Five minutes a day.",
+        roundsTarget: "Rounds",
+        roundsTargetHint: "The session stops on its own once completed.",
+        roundsFree: "Open",
+        roundsDone: "Rounds completed"
     },
     zh: {
         inspire: "吸气",
@@ -404,6 +605,39 @@ export const translations: Record<Language, AppTranslations> = {
         shape6: "六边形",
         ready: "准备开始",
         shortcuts: "快捷键：空格开始或暂停，F 切换专注，? 打开帮助。",
-        reset: "重置挑战"
+        reset: "重置挑战",
+        rhythmEditor: "呼吸时长",
+        modeSimple: "简易",
+        modeAdvanced: "进阶",
+        perSideHint: "调整图形每一边持续多久。",
+        freeStepsHint: "自订呼吸循环：新增、排序并设定每个阶段的时长。",
+        cycleDuration: "循环",
+        breathsPerMin: "次/分",
+        addStep: "新增阶段",
+        removeStep: "移除阶段",
+        moveUp: "上移",
+        moveDown: "下移",
+        resetTimes: "均匀节奏",
+        customized: "已自订",
+        holdWarning: "屏息时间较长。请保持舒适、不要憋气，尤其是儿童。",
+        savePattern: "保存",
+        patternName: "模式名称",
+        myPatterns: "我的模式",
+        deletePattern: "删除",
+        storedLocally: "所有资料仅保存在本装置。",
+        forgetData: "删除我的资料",
+        guidedPatterns: "有研究依据的模式",
+        patternResonance: "共振呼吸",
+        patternResonanceDesc: "每分钟约 5.5 次，压力反射的共振频率。",
+        patternBox: "箱式 4-4-4-4",
+        patternBoxDesc: "四段等长。专注与自制。",
+        pattern478: "4-7-8",
+        pattern478Desc: "延长呼气，帮助放慢节奏。",
+        patternSigh: "生理性叹息",
+        patternSighDesc: "两次吸气加一次长呼气。每天五分钟。",
+        roundsTarget: "轮数",
+        roundsTargetHint: "完成后练习会自动停止。",
+        roundsFree: "不限",
+        roundsDone: "已完成轮数"
     }
 };

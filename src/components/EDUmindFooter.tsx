@@ -13,8 +13,8 @@
  * Luis Vilela Acuña. El software puede distribuirse bajo licencias
  * open-source, pero el uso de la marca EDUmind® requiere autorización.
  *
- * Copia fiel de /var/www/edumind-footer (fuente canónica). Se vendoriza
- * porque el paquete publicado @edumind/footer no incluye su CSS. Los colores
+ * Copia fiel del pie canónico de EDUmind. Se vendoriza porque el paquete
+ * publicado @edumind/footer no incluye su CSS. Los colores
  * se armonizan con la lámina EDUmind vía variables --footer-* en globals.css.
  */
 
@@ -203,8 +203,13 @@ export default function EDUmindFooter({
         ? {}
         : { target: "_blank" as const, rel: "noopener noreferrer" };
 
-    // Detectar soporte PWA para el botón de actualización
+    // Detectar soporte PWA para el botón de actualización.
+    //
+    // Tiene que ser tras el montaje: en el servidor no hay `navigator`, y
+    // resolverlo durante el render daría un desajuste de hidratación. Por eso
+    // se silencia aquí `set-state-in-effect`.
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setCanManuallyUpdate(
             typeof window !== "undefined" && typeof navigator !== "undefined" && "serviceWorker" in navigator,
         );

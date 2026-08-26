@@ -30,15 +30,18 @@ export default function Home() {
     const session = useBreathingSession();
     const { embedded, focusMode, compactMode, showFaq, t, setShowFaq } = session;
 
+    // Empotrado se ocupa todo el ancho; la columna de controles aparece salvo
+    // en modo compacto (empotrado sin `panel=1`, o en modo foco).
+    const clasesRejilla = [
+        embedded ? "geobreath-embed" : "",
+        compactMode ? "" : "lg:grid-cols-[minmax(0,1fr)_390px]",
+    ].filter(Boolean).join(" ");
+
     return (
-        <main
-            className={`mx-auto grid max-w-[1500px] gap-5 px-4 py-5 md:px-6 ${
-                embedded ? "geobreath-embed" : "lg:grid-cols-[minmax(0,1fr)_390px]"
-            }`}
-        >
+        <main className={`mx-auto grid max-w-[1500px] gap-5 px-4 py-5 md:px-6 ${clasesRejilla}`}>
             <section
                 className={`order-1 flex flex-col gap-4 ${
-                    focusMode ? "fixed inset-4 z-50" : embedded ? "min-h-screen" : "lg:sticky lg:top-5 lg:h-[calc(100dvh-2.5rem)]"
+                    focusMode ? "fixed inset-4 z-50" : compactMode ? "min-h-screen" : "lg:sticky lg:top-5 lg:h-[calc(100dvh-2.5rem)]"
                 }`}
             >
                 <BreathingPanel session={session} />

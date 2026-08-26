@@ -28,7 +28,6 @@ export default function SessionRunner({ program, completionCount }: Props) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [cycles, setCycles] = useState(0);
     const [sessionComplete, setSessionComplete] = useState(false);
-    const [currentPhaseLabel, setCurrentPhaseLabel] = useState("Inspira");
 
     const { n, secPerPhase, targetCycles, pattern } = program.sessionParams;
 
@@ -55,7 +54,6 @@ export default function SessionRunner({ program, completionCount }: Props) {
     };
 
     const progress = Math.min(cycles / targetCycles, 1);
-    const phaseMap: Record<string, string> = { I: "Inspira", E: "Exhala", H: "Aguanta" };
 
     return (
         <div data-lm-theme="noche" className="geo-stage fixed inset-0 z-50 flex flex-col">
@@ -135,7 +133,6 @@ export default function SessionRunner({ program, completionCount }: Props) {
                                 pattern={pattern}
                                 isPlaying={isPlaying}
                                 onCycleComplete={handleCycleComplete}
-                                onPhaseChange={(phase) => setCurrentPhaseLabel(phaseMap[phase] ?? "Inspira")}
                                 translations={{
                                     inspire: "Inspira",
                                     exhale: "Exhala",

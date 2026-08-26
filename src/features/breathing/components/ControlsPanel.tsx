@@ -11,9 +11,11 @@
 "use client";
 
 import { Circle, Hexagon, MessageSquare, Pause, Play, Smartphone, Square, Triangle, Volume2, VolumeX, Wind } from "lucide-react";
+import { RONDAS_MAX, RONDAS_MIN } from "@/lib/almacenLocal";
 import { SHAPE_VALUES, shapeLabel, type ShapeValue } from "../lib/breathing";
 import type { BreathingSession } from "../hooks/useBreathingSession";
 import ToggleControl from "./ToggleControl";
+import EditorTiempos from "./EditorTiempos";
 
 function ShapeIcon({ value }: { value: ShapeValue }) {
     if (value === 2) return <Circle size={18} />;
@@ -25,7 +27,7 @@ function ShapeIcon({ value }: { value: ShapeValue }) {
 
 // Panel de configuración: forma, ritmo y apoyos sensoriales
 export default function ControlsPanel({ session }: { session: BreathingSession }) {
-    const { t, sides, seconds, sound, vibe, tts, showPictos, isPlaying, activeShapeLabel, handleShapeChange, setSeconds, adjustSeconds, setSound, setVibe, setTts, setShowPictos, togglePlaying } = session;
+    const { t, sides, seconds, objetivoRondas, cambiarObjetivoRondas, sound, vibe, tts, showPictos, isPlaying, activeShapeLabel, handleShapeChange, setSeconds, adjustSeconds, setSound, setVibe, setTts, setShowPictos, togglePlaying } = session;
 
     return (
         <section className="rounded-2xl border border-rule bg-paper-2 p-5">
@@ -78,6 +80,9 @@ export default function ControlsPanel({ session }: { session: BreathingSession }
                 </div>
             </div>
 
+            {/* Tiempos por fase: personalización fina del ciclo */}
+            <EditorTiempos session={session} />
+
             {/* Apoyos sensoriales */}
             <div className="mt-6">
                 <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-2">{t.feedback}</div>
@@ -86,6 +91,48 @@ export default function ControlsPanel({ session }: { session: BreathingSession }
                     <ToggleControl active={vibe} activeIcon={<Smartphone size={18} />} label={t.vibration} onClick={() => setVibe((value) => !value)} />
                     <ToggleControl active={showPictos} activeIcon={<Wind size={18} />} label={t.pictograms} onClick={() => setShowPictos((value) => !value)} />
                     <ToggleControl active={tts} activeIcon={<MessageSquare size={18} />} label={t.voice} onClick={() => setTts((value) => !value)} />
+                </div>
+            </div>
+
+            {/* Modo aula: rondas objetivo */}
+            <div className="mt-6">
+                <div className="mb-2 flex items-center justify-between gap-4">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-2">{t.roundsTarget}</span>
+                    <div className="flex items-center gap-1 rounded-lg border border-rule bg-paper p-1">
+                        <button
+                            type="button"
+                            onClick={() => cambiarObjetivoRondas(objetivoRondas === null ? null : objetivoRondas - 1)}
+                            disabled={objetivoRondas === null || objetivoRondas <= RONDAS_MIN}
+                            aria-label={`${t.roundsTarget} −1`}
+                            className="flex h-9 w-9 items-center justify-center rounded-md text-mental-deep transition-colors hover:bg-black/[0.04] disabled:opacity-30"
+                        >
+                            −
+                        </button>
+                        <span className="min-w-[4rem] text-center font-mono text-sm font-semibold text-ink">
+                            {objetivoRondas === null ? t.roundsFree : objetivoRondas}
+                        </span>
+                        <button
+                            type="button"
+                            onClick={() => cambiarObjetivoRondas(objetivoRondas === null ? 5 : objetivoRondas + 1)}
+                            disabled={objetivoRondas !== null && objetivoRondas >= RONDAS_MAX}
+                            aria-label={`${t.roundsTarget} +1`}
+                            className="flex h-9 w-9 items-center justify-center rounded-md text-mental-deep transition-colors hover:bg-black/[0.04] disabled:opacity-30"
+                        >
+                            +
+                        </button>
+                    </div>
+                </div>
+                <div className="flex items-center justify-between gap-3">
+                    <p className="text-xs leading-5 text-ink-2">{t.roundsTargetHint}</p>
+                    {objetivoRondas !== null ? (
+                        <button
+                            type="button"
+                            onClick={() => cambiarObjetivoRondas(null)}
+                            className="shrink-0 font-mono text-[11px] text-ink-2 underline underline-offset-2 hover:text-ink"
+                        >
+                            {t.roundsFree}
+                        </button>
+                    ) : null}
                 </div>
             </div>
 

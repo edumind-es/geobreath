@@ -169,3 +169,63 @@ export function getPointAtLapFraction(n: number, f: number, cx: number, cy: numb
     const local = scaled - seg;
     return getPointOnTrail(n, seg, local, cx, cy, R);
 }
+
+/**
+ * Horario de un ciclo: para cada paso, el instante en que empieza, y la
+ * duración total de la vuelta.
+ *
+ * Vivía suelto dentro del efecto de BreathingStage. Extraído aquí para poder
+ * probarlo y para que el editor de tiempos calcule la duración del ciclo y el
+ * ritmo (resp/min) con exactamente la misma lógica que la animación.
+ */
+export interface BreathingSchedule {
+    steps: PhaseStep[];
+    starts: number[];
+    total: number;
+}
+
+export function buildSchedule(steps: PhaseStep[]): BreathingSchedule {
+    const starts: number[] = [];
+    let total = 0;
+    for (const step of steps) {
+        starts.push(total);
+        // Una fase de duración negativa o no numérica no debe corromper el resto
+        // del horario: cuenta como cero.
+        const seconds = typeof step.seconds === 'number' && step.seconds > 0 ? step.seconds : 0;
+        total += seconds;
+    }
+    return { steps, starts, total };
+}
+
+/** Paso activo en el instante `elapsed` (segundos desde el inicio del ciclo). */
+export function stepAtTime(
+    schedule: BreathingSchedule,
+    elapsed: number,
+): { index: number; phase: Phase; local: number } {
+    const { steps, starts, total } = schedule;
+    if (steps.length === 0 || total <= 0) {
+        return { index: 0, phase: steps[0]?.phase ?? 'I', local: 0 };
+    }
+
+    // Envolvemos el tiempo para que valga también con acumulados de varias vueltas.
+    const wrapped = ((elapsed % total) + total) % total;
+
+    let index = 0;
+    for (let i = steps.length - 1; i >= 0; i--) {
+        if (wrapped >= starts[i]) {
+            index = i;
+            break;
+        }
+    }
+
+    const step = steps[index];
+    const seconds = step.seconds > 0 ? step.seconds : 0;
+    const local = seconds > 0 ? (wrapped - starts[index]) / seconds : 0;
+    return { index, phase: step.phase, local: local > 1 ? 1 : local };
+}
+
+/** Respiraciones por minuto de un ciclo. 0 si el ciclo no dura nada. */
+export function breathsPerMinute(steps: PhaseStep[]): number {
+    const { total } = buildSchedule(steps);
+    return total > 0 ? 60 / total : 0;
+}

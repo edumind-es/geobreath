@@ -21,12 +21,14 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
+    buildSchedule,
     easeBreath,
     geoBreathSequence,
     getPointAtLapFraction,
     getPolygonPoints,
     Phase,
     PhaseStep,
+    stepAtTime,
 } from "@/lib/geoLogic";
 
 const STAGE_SIZE = 320;
@@ -46,6 +48,9 @@ const PHASE_SCALE: Record<Phase, number> = { I: 1.06, H: 1.0, E: 0.93 };
 // Nº de destellos que forman la estela tipo cometa detrás del punto guía
 const TRAIL_STEPS = 6;
 const TRAIL_GAP = 0.014; // fracción de vuelta entre destellos
+
+// Tope de avance por frame (s). Evita el salto al volver de segundo plano.
+const MAX_FRAME_DELTA = 0.25;
 
 interface BreathingStageTranslations {
     inspire: string;
@@ -93,6 +98,28 @@ export default function BreathingStage({
     const pauseOffsetRef = useRef(0);
     const rafRef = useRef<number | null>(null);
 
+    // Callbacks en refs: SessionRunner pasa una arrow inline a onPhaseChange y
+    // los handlers de la portada se recrean en cada render. Sin esto, el efecto
+    // del rAF se destruía y recreaba en cada cambio de fase.
+    const onPhaseChangeRef = useRef(onPhaseChange);
+    const onCycleCompleteRef = useRef(onCycleComplete);
+    const patternRef = useRef(pattern);
+
+    // Las refs se refrescan en un efecto, no durante el render: escribir en
+    // `.current` mientras se renderiza no está permitido. Este efecto no lleva
+    // lista de dependencias a propósito —corre tras cada render— y va antes que
+    // el del bucle, así que cuando aquel arranca ya tiene los valores frescos.
+    useEffect(() => {
+        onPhaseChangeRef.current = onPhaseChange;
+        onCycleCompleteRef.current = onCycleComplete;
+        patternRef.current = pattern;
+    });
+
+    // El patrón llega como array nuevo en cada render. Comparamos por contenido
+    // (fase + segundos) para no reiniciar la animación sin motivo.
+    const patternKey =
+        pattern && pattern.length >= 2 ? pattern.map((step) => `${step.phase}:${step.seconds}`).join("|") : "";
+
     // Respeto a la preferencia de movimiento reducido
     useEffect(() => {
         const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -113,53 +140,45 @@ export default function BreathingStage({
         if (!isPlaying) {
             if (rafRef.current) cancelAnimationFrame(rafRef.current);
             rafRef.current = null;
-            onPhaseChange?.(phaseRef.current);
+            onPhaseChangeRef.current?.(phaseRef.current);
             return;
         }
 
         // Reconstruye los pasos y los tiempos de inicio acumulados de cada fase
+        const activePattern = patternRef.current;
         const activeSteps: PhaseStep[] =
-            pattern && pattern.length >= 2
-                ? pattern
+            activePattern && activePattern.length >= 2
+                ? activePattern
                 : geoBreathSequence(validSides).map((ph) => ({ phase: ph, seconds: secPerPhase }));
         const sidesN = activeSteps.length;
-        const starts: number[] = [];
-        let total = 0;
-        for (const step of activeSteps) {
-            starts.push(total);
-            total += step.seconds;
-        }
+        const schedule = buildSchedule(activeSteps);
+        const total = schedule.total;
         if (total <= 0) return;
 
         let lastFrameTime = performance.now();
         let accumulated = pauseOffsetRef.current % total;
 
         const animate = (time: number) => {
-            const deltaSeconds = (time - lastFrameTime) / 1000;
+            // Con la pestaña oculta o la pantalla apagada el rAF deja de emitir
+            // frames. Al volver, el delta sería de minutos y el guía saltaría
+            // varios ciclos de golpe. Lo acotamos: la respiración se queda donde
+            // el usuario la dejó en vez de avanzar sin él.
+            const deltaSeconds = Math.min((time - lastFrameTime) / 1000, MAX_FRAME_DELTA);
             lastFrameTime = time;
             accumulated += deltaSeconds;
 
             if (accumulated >= total) {
                 accumulated %= total;
-                onCycleComplete?.();
+                onCycleCompleteRef.current?.();
             }
 
             // Paso activo según el tiempo acumulado y su progreso local (0→1)
-            let idx = 0;
-            for (let i = sidesN - 1; i >= 0; i--) {
-                if (accumulated >= starts[i]) {
-                    idx = i;
-                    break;
-                }
-            }
-            const step = activeSteps[idx];
-            const local = step.seconds > 0 ? (accumulated - starts[idx]) / step.seconds : 0;
-            const nextPhase = step.phase;
+            const { index: idx, phase: nextPhase, local } = stepAtTime(schedule, accumulated);
 
             if (phaseRef.current !== nextPhase) {
                 phaseRef.current = nextPhase;
                 setPhase(nextPhase);
-                onPhaseChange?.(nextPhase);
+                onPhaseChangeRef.current?.(nextPhase);
             }
 
             // Avance suavizado por fase → la figura se dibuja «respirando»
@@ -176,7 +195,8 @@ export default function BreathingStage({
             if (rafRef.current) cancelAnimationFrame(rafRef.current);
             rafRef.current = null;
         };
-    }, [isPlaying, onCycleComplete, onPhaseChange, secPerPhase, validSides, pattern]);
+        // patternKey representa el contenido de `pattern`; los callbacks viven en refs.
+    }, [isPlaying, secPerPhase, validSides, patternKey]);
 
     const color = PHASE_COLOR[phase];
     const currentLabel = phase === "I" ? t.inspire : phase === "E" ? t.exhale : t.hold;
