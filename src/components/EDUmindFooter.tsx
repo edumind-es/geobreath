@@ -1,7 +1,7 @@
 "use client";
 /*
  * CANONICAL VERSION — @edumind/footer v1.0.0 (vendorizado)
- * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Copyright (C) 2024-2026 Luis Vilela Acuña <contacto@edumind.es>
  * Author: Luis Vilela Acuña <contacto@edumind.es>
  *
  * This program is free software: you can redistribute it and/or modify
