@@ -42,6 +42,9 @@ import {
 import { translations, type Language } from "@/lib/i18n";
 import { phaseLabel, shapeLabel, type ShapeValue } from "../lib/breathing";
 
+// Código BCP 47 de cada idioma de la interfaz (el catalán se abrevia «cat» en la app).
+const HTML_LANG: Record<Language, string> = { es: "es", gl: "gl", cat: "ca", eu: "eu", en: "en", zh: "zh" };
+
 export type Preset = "calm" | "focus" | "recover";
 
 /**
@@ -305,6 +308,12 @@ export function useBreathingSession() {
             setSessionTime(Math.floor(segundosAcumuladosRef.current));
         };
     }, [isPlaying]);
+
+    // Accesibilidad: el atributo lang del documento sigue al idioma elegido,
+    // para que los lectores de pantalla pronuncien bien los textos.
+    useEffect(() => {
+        document.documentElement.lang = HTML_LANG[lang];
+    }, [lang]);
 
     // Modal de ayuda: bloquear scroll + cerrar con Escape
     useEffect(() => {
