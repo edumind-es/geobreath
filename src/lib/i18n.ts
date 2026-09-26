@@ -60,6 +60,10 @@ export interface AppTranslations {
     exitFocusMode: string;
     help: string;
     close: string;
+    // Créditos del material ajeno (pantalla de ayuda)
+    credits: string;
+    creditsVoice: string;
+    creditsReference: string;
     currentPhase: string;
     howToUse: string;
     stepOne: string;
@@ -140,7 +144,7 @@ export const translations: Record<Language, AppTranslations> = {
         faqTitle: "Preguntas frecuentes",
         faq: [
             { q: "¿Qué es GeoBreath?", a: "Es una herramienta de respiración guiada para regular el ritmo, mejorar la concentración y bajar la carga mental usando recorridos geométricos." },
-            { q: "¿Es privado?", a: "Sí. La experiencia principal funciona localmente en el dispositivo y no necesita crear una cuenta para empezar." },
+            { q: "¿Es privado?", a: "Sí. La respiración funciona en el dispositivo, sin cuenta y sin analítica: las preferencias se guardan solo en este navegador y puedes borrarlas. La zona con cuenta EDUmind (opcional, para docentes) guarda el perfil cifrado en el servidor de EDUmind." },
             { q: "¿Cómo se usa mejor?", a: "Elige una figura, ajusta los segundos por lado y sigue el punto. Puedes activar apoyos de sonido, vibración, pictogramas o voz." }
         ],
         tagline: "Respira con una interfaz más clara y menos ruido",
@@ -153,6 +157,9 @@ export const translations: Record<Language, AppTranslations> = {
         exitFocusMode: "Salir de foco",
         help: "Ayuda",
         close: "Cerrar",
+        credits: "Créditos y referencias",
+        creditsVoice: "Clips de voz: pregrabados con síntesis de voz; pendiente de confirmar el servicio por el autor.",
+        creditsReference: "Suspiro fisiológico:",
         currentPhase: "Fase actual",
         howToUse: "Cómo usarlo",
         stepOne: "1. Ajusta figura y duración antes de empezar.",
@@ -228,7 +235,7 @@ export const translations: Record<Language, AppTranslations> = {
         faqTitle: "Preguntas frecuentes",
         faq: [
             { q: "Que é GeoBreath?", a: "É unha ferramenta de respiración guiada para regular o ritmo, mellorar a concentración e reducir a carga mental con percorridos xeométricos." },
-            { q: "É privado?", a: "Si. A experiencia principal funciona localmente no dispositivo e non precisa conta para comezar." },
+            { q: "É privado?", a: "Si. A respiración funciona no dispositivo, sen conta e sen analítica: as preferencias gárdanse só neste navegador e podes borralas. A zona con conta EDUmind (opcional, para docentes) garda o perfil cifrado no servidor de EDUmind." },
             { q: "Como se usa mellor?", a: "Escolle unha figura, axusta os segundos por lado e segue o punto. Podes activar son, vibración, pictogramas ou voz." }
         ],
         tagline: "Respira cunha interface máis clara e menos ruído",
@@ -241,6 +248,9 @@ export const translations: Record<Language, AppTranslations> = {
         exitFocusMode: "Saer do foco",
         help: "Axuda",
         close: "Pechar",
+        credits: "Créditos e referencias",
+        creditsVoice: "Clips de voz: pregravados con síntese de voz; pendente de confirmar o servizo polo autor.",
+        creditsReference: "Suspiro fisiolóxico:",
         currentPhase: "Fase actual",
         howToUse: "Como usalo",
         stepOne: "1. Axusta figura e duración antes de comezar.",
@@ -316,7 +326,7 @@ export const translations: Record<Language, AppTranslations> = {
         faqTitle: "Preguntes freqüents",
         faq: [
             { q: "Què és GeoBreath?", a: "És una eina de respiració guiada per regular el ritme, millorar la concentració i reduir la càrrega mental amb recorreguts geomètrics." },
-            { q: "És privat?", a: "Sí. L'experiència principal funciona localment al dispositiu i no cal cap compte per començar." },
+            { q: "És privat?", a: "Sí. La respiració funciona al dispositiu, sense compte i sense analítica: les preferències es desen només en aquest navegador i les pots esborrar. La zona amb compte EDUmind (opcional, per a docents) desa el perfil xifrat al servidor d'EDUmind." },
             { q: "Com s'utilitza millor?", a: "Tria una figura, ajusta els segons per costat i segueix el punt. Pots activar so, vibració, pictogrames o veu." }
         ],
         tagline: "Respira amb una interfície més clara i menys soroll",
@@ -329,6 +339,9 @@ export const translations: Record<Language, AppTranslations> = {
         exitFocusMode: "Sortir del focus",
         help: "Ajuda",
         close: "Tancar",
+        credits: "Crèdits i referències",
+        creditsVoice: "Clips de veu: pregravats amb síntesi de veu; pendent de confirmar el servei per l'autor.",
+        creditsReference: "Sospir fisiològic:",
         currentPhase: "Fase actual",
         howToUse: "Com usar-ho",
         stepOne: "1. Ajusta figura i duració abans de començar.",
@@ -404,7 +417,7 @@ export const translations: Record<Language, AppTranslations> = {
         faqTitle: "Ohiko galderak",
         faq: [
             { q: "Zer da GeoBreath?", a: "Arnasketa gidatuko tresna bat da, erritmoa erregulatzeko, kontzentrazioa hobetzeko eta karga mentala jaisteko ibilbide geometrikoekin." },
-            { q: "Pribatua al da?", a: "Bai. Esperientzia nagusia gailuan bertan funtzionatzen du eta ez du konturik behar hasteko." },
+            { q: "Pribatua al da?", a: "Bai. Arnasketak gailuan bertan funtzionatzen du, konturik eta analitikarik gabe: hobespenak nabigatzaile honetan bakarrik gordetzen dira eta ezaba ditzakezu. EDUmind kontuko eremuak (aukerakoa, irakasleentzat) profila zifratuta gordetzen du EDUmind zerbitzarian." },
             { q: "Nola erabili hobeto?", a: "Aukeratu irudi bat, doitu segundoak alde bakoitzeko eta jarraitu puntua. Soinua, bibrazioa, pictogramak edo ahotsa aktiba ditzakezu." }
         ],
         tagline: "Arnasa hartu interfaze argiago batekin eta zarata gutxiagorekin",
@@ -417,6 +430,9 @@ export const translations: Record<Language, AppTranslations> = {
         exitFocusMode: "Atera fokutik",
         help: "Laguntza",
         close: "Itxi",
+        credits: "Kredituak eta erreferentziak",
+        creditsVoice: "Ahots-klipak: ahots-sintesiarekin aurrez grabatuak; egileak zerbitzua baieztatzeke.",
+        creditsReference: "Hasperen fisiologikoa:",
         currentPhase: "Uneko fasea",
         howToUse: "Nola erabili",
         stepOne: "1. Doitu irudia eta iraupena hasi aurretik.",
@@ -492,7 +508,7 @@ export const translations: Record<Language, AppTranslations> = {
         faqTitle: "Frequently asked questions",
         faq: [
             { q: "What is GeoBreath?", a: "It is a guided breathing tool built to regulate pace, improve focus and reduce mental load through geometric breathing paths." },
-            { q: "Is it private?", a: "Yes. The main experience runs locally on the device and does not require an account to begin." },
+            { q: "Is it private?", a: "Yes. Breathing runs on the device, with no account and no analytics: preferences are stored only in this browser and you can delete them. The optional EDUmind account area (for teachers) stores the profile encrypted on the EDUmind server." },
             { q: "How should I use it?", a: "Pick a shape, adjust the seconds per side and follow the moving point. You can enable sound, vibration, pictograms or voice." }
         ],
         tagline: "Breathe with a clearer interface and less noise",
@@ -505,6 +521,9 @@ export const translations: Record<Language, AppTranslations> = {
         exitFocusMode: "Exit focus",
         help: "Help",
         close: "Close",
+        credits: "Credits and references",
+        creditsVoice: "Voice clips: pre-recorded with speech synthesis; the service is pending confirmation by the author.",
+        creditsReference: "Physiological sigh:",
         currentPhase: "Current phase",
         howToUse: "How to use it",
         stepOne: "1. Set the shape and duration before you start.",
@@ -580,7 +599,7 @@ export const translations: Record<Language, AppTranslations> = {
         faqTitle: "常见问题",
         faq: [
             { q: "什么是 GeoBreath？", a: "这是一个引导呼吸工具，通过几何路径帮助你调节节奏、提升专注并降低心理负荷。" },
-            { q: "它是私密的吗？", a: "是的。主要体验在设备本地运行，开始使用不需要账户。" },
+            { q: "它是私密的吗？", a: "是的。呼吸练习在设备本地运行，无需账户，也没有分析统计：偏好设置仅保存在此浏览器中，你可以随时删除。可选的 EDUmind 账户区（面向教师）会将个人资料加密保存在 EDUmind 服务器上。" },
             { q: "怎样使用更好？", a: "选择图形，调整每边秒数，并跟随移动点。你也可以开启声音、震动、图示或语音。" }
         ],
         tagline: "用更清晰、更安静的界面呼吸",
@@ -593,6 +612,9 @@ export const translations: Record<Language, AppTranslations> = {
         exitFocusMode: "退出专注",
         help: "帮助",
         close: "关闭",
+        credits: "致谢与参考文献",
+        creditsVoice: "语音片段：使用语音合成预先录制；具体服务待作者确认。",
+        creditsReference: "生理性叹息：",
         currentPhase: "当前阶段",
         howToUse: "使用方式",
         stepOne: "1. 开始前先设置图形和时长。",
