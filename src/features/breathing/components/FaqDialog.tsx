@@ -8,6 +8,7 @@
  * (at your option) any later version.
  */
 
+import { useEffect, useRef } from "react";
 import type { AppTranslations } from "@/lib/i18n";
 
 interface FaqDialogProps {
@@ -15,8 +16,24 @@ interface FaqDialogProps {
     onClose: () => void;
 }
 
+// Fórmula de atribución exigida por la licencia de los pictogramas ARASAAC.
+const ARASAAC_ATTRIBUTION =
+    "Autor pictogramas: Sergio Palao. Origen: ARASAAC (http://www.arasaac.org). Licencia: CC BY-NC-SA. Propiedad: Gobierno de Aragón (España)";
+
 // Modal de ayuda — lámina papel/tinta
 export default function FaqDialog({ t, onClose }: FaqDialogProps) {
+    const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+    // Accesibilidad: al abrir, el foco entra en el diálogo (botón Cerrar);
+    // al cerrar, vuelve al elemento que lo abrió (el botón de ayuda).
+    useEffect(() => {
+        const previouslyFocused = document.activeElement as HTMLElement | null;
+        closeButtonRef.current?.focus();
+        return () => {
+            previouslyFocused?.focus?.();
+        };
+    }, []);
+
     return (
         <div
             className="fixed inset-0 z-[60] flex items-center justify-center bg-ink/50 p-4 backdrop-blur-sm"
@@ -38,6 +55,7 @@ export default function FaqDialog({ t, onClose }: FaqDialogProps) {
                         </h2>
                     </div>
                     <button
+                        ref={closeButtonRef}
                         type="button"
                         onClick={onClose}
                         className="lm-btn-ghost h-11 w-11 !p-0 text-xl"
@@ -54,6 +72,37 @@ export default function FaqDialog({ t, onClose }: FaqDialogProps) {
                             <p className="mt-1 text-sm leading-7 text-ink-2">{item.a}</p>
                         </article>
                     ))}
+
+                    {/* Créditos del material ajeno y referencia científica.
+                        La fórmula de ARASAAC es la que exige su licencia, por eso no se traduce. */}
+                    <section className="border-t border-rule pt-3" aria-labelledby="faq-credits">
+                        <h3 id="faq-credits" className="font-display text-lg font-semibold text-ink">{t.credits}</h3>
+                        <p className="mt-1 text-sm leading-6 text-ink-2">
+                            {ARASAAC_ATTRIBUTION}
+                        </p>
+                        <p className="mt-1 text-sm leading-6 text-ink-2">{t.creditsVoice}</p>
+                        <p className="mt-1 text-sm leading-6 text-ink-2">
+                            {t.creditsReference}{" "}
+                            <a
+                                href="https://doi.org/10.1016/j.xcrm.2022.100895"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline text-mental-deep"
+                            >
+                                Balban et al. (2023), <em>Cell Reports Medicine</em>, 4(1), 100895. doi:10.1016/j.xcrm.2022.100895
+                            </a>
+                        </p>
+                        <p className="mt-1 text-sm leading-6 text-ink-2">
+                            <a
+                                href="https://github.com/edumind-es/geobreath/blob/main/CREDITS.md"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline text-mental-deep"
+                            >
+                                CREDITS.md
+                            </a>
+                        </p>
+                    </section>
                 </div>
             </div>
         </div>

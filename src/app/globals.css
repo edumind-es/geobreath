@@ -32,7 +32,7 @@
     --color-paper-2: #f0ede5;
     --color-ink: #1c1a16;
     --color-ink-2: #4f4a41;
-    --color-ink-3: #8a8377;
+    --color-ink-3: #625c52; /* ≥4,5:1 sobre papel y sobre los fondos teñidos (bg-mental/15): válido para texto pequeño */
     --color-rule: #c7c0b1;
     --color-rule-strong: #1c1a16;
 
@@ -57,6 +57,9 @@
 /* Puente hacia el canon lámina: sus clases .lm-* usan las fuentes reales */
 :root {
     color-scheme: light;
+    /* El canon fija --lm-ink-3 en #8a8377 (3:1, solo texto grande). Esta app lo
+       usa en texto de 10-11 px, así que se sube a ≥4,5:1 sin tocar lamina-v1.css. */
+    --lm-ink-3: #625c52;
     --lm-display: var(--f-display), "Bricolage Grotesque", "Outfit", "Helvetica Neue", Arial, sans-serif;
     --lm-body: var(--f-body), "Poppins", "Outfit", system-ui, sans-serif;
     --lm-mono: var(--f-mono), "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
@@ -147,6 +150,13 @@ body[data-edumind-embed="true"] .edumind-footer {
 
 :root .edumind-footer__version-badge {
     font-family: var(--lm-mono);
+}
+
+/* El pie vendorizado atenúa con opacity el bloque legal y la etiqueta de
+   versión (queda en ~3,5:1). Sin la atenuación, el gris --ef-text cumple 4,5:1. */
+:root .edumind-footer__trademark,
+:root .edumind-footer__version-label {
+    opacity: 1;
 }
 
 /* --- Scrollbar en tonos papel --- */

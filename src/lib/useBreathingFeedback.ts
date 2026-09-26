@@ -45,8 +45,9 @@ const speechLocaleMap: Record<Language, string> = {
     zh: "zh-CN",
 };
 
-// Idiomas con clips de voz neural pregrabados (alta calidad) en /public/audio.
-// El resto (p. ej. euskera, sin voz neural gratuita) cae al sintetizador del navegador.
+// Idiomas con clips de voz pregrabados en /public/audio (generados con síntesis
+// de voz; el servicio concreto está pendiente de confirmar por el autor, ver
+// CREDITS.md). El resto (p. ej. euskera) cae al sintetizador del navegador.
 const CLIP_LANGS = new Set<Language>(["es", "gl", "cat", "en", "zh"]);
 
 export function useBreathingFeedback(phase: Phase, isPlaying: boolean, options: FeedbackOptions) {

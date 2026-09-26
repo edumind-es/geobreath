@@ -18,7 +18,6 @@
 
 import "../styles/lamina-v1.css";
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import { Bricolage_Grotesque, Poppins, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import EDUmindFooter from "../components/EDUmindFooter";
@@ -53,11 +52,11 @@ export const metadata: Metadata = {
     metadataBase: new URL("https://breath.edumind.es"),
     applicationName: "GeoBreath",
     title: {
-        default: "GeoBreath | Respiracion geometrica guiada",
+        default: "GeoBreath | Respiración geométrica guiada",
         template: "%s | GeoBreath",
     },
-    description: "App de respiracion guiada con secuencias geometricas, enfoque visual y apoyos sensoriales opcionales.",
-    keywords: ["respiracion guiada", "mindfulness", "focus", "geo breathing", "educacion emocional", "EDUmind"],
+    description: "App de respiración guiada con secuencias geométricas, enfoque visual y apoyos sensoriales opcionales. Sin cuenta ni analítica.",
+    keywords: ["respiración guiada", "mindfulness", "focus", "geo breathing", "educación emocional", "EDUmind"],
     manifest: "/manifest.json",
     appleWebApp: {
         capable: true,
@@ -70,7 +69,7 @@ export const metadata: Metadata = {
     },
     openGraph: {
         title: "GeoBreath",
-        description: "Respiracion geometrica guiada para sesiones cortas de foco y regulacion.",
+        description: "Respiración geométrica guiada para sesiones cortas de foco y regulación.",
         url: "https://breath.edumind.es",
         siteName: "GeoBreath",
         locale: "es_ES",
@@ -94,31 +93,13 @@ export default function RootLayout({
                 <PWARegister />
                 <EDUmindFooter
                     appName="GeoBreath"
-                    version="2.0.0"
+                    version="2.0.3"
                     versionStage="Stable"
                     feedbackUrl="https://github.com/edumind-es/geobreath/issues"
                     homeHref="/"
                     locale="es"
                     hideNavigation
                 />
-
-                <Script id="matomo-tracking" strategy="afterInteractive">
-                    {`
-                        var _paq = window._paq = window._paq || [];
-                        _paq.push(['disableCookies']);
-                        _paq.push(['setDoNotTrack', true]);
-                        _paq.push(['trackPageView']);
-                        _paq.push(['enableLinkTracking']);
-                        (function() {
-                            var u = 'https://analytics.losmundosedufis.com/';
-                            _paq.push(['setTrackerUrl', u + 'matomo.php']);
-                            _paq.push(['setSiteId', '12']);
-                            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-                            g.async = true; g.src = u + 'matomo.js';
-                            s.parentNode.insertBefore(g, s);
-                        })();
-                    `}
-                </Script>
             </body>
         </html>
     );

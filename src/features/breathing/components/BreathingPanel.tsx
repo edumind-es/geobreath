@@ -50,7 +50,7 @@ export default function BreathingPanel({ session }: BreathingPanelProps) {
             {/* Cabecera (papel) */}
             <header className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-rule-strong px-4 py-3 md:px-5">
                 <div className="min-w-0">
-                    <h1 className="font-display text-2xl font-bold tracking-tight text-ink md:text-3xl">Respira LME</h1>
+                    <h1 className="font-display text-2xl font-bold tracking-tight text-ink md:text-3xl">GeoBreath</h1>
                     <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.08em] text-ink-2">
                         {activeShapeLabel} · {seconds.toFixed(1)} s · {activeSupportCount}/4 apoyos
                     </p>
