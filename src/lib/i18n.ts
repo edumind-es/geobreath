@@ -139,7 +139,7 @@ export const translations: Record<Language, AppTranslations> = {
         footer: "Sistema propiedad de EDUmind",
         faqTitle: "Preguntas frecuentes",
         faq: [
-            { q: "¿Qué es Respira LME?", a: "Es una herramienta de respiración guiada para regular el ritmo, mejorar la concentración y bajar la carga mental usando recorridos geométricos." },
+            { q: "¿Qué es GeoBreath?", a: "Es una herramienta de respiración guiada para regular el ritmo, mejorar la concentración y bajar la carga mental usando recorridos geométricos." },
             { q: "¿Es privado?", a: "Sí. La experiencia principal funciona localmente en el dispositivo y no necesita crear una cuenta para empezar." },
             { q: "¿Cómo se usa mejor?", a: "Elige una figura, ajusta los segundos por lado y sigue el punto. Puedes activar apoyos de sonido, vibración, pictogramas o voz." }
         ],
@@ -227,7 +227,7 @@ export const translations: Record<Language, AppTranslations> = {
         footer: "Sistema propiedade de EDUmind",
         faqTitle: "Preguntas frecuentes",
         faq: [
-            { q: "Que é Respira LME?", a: "É unha ferramenta de respiración guiada para regular o ritmo, mellorar a concentración e reducir a carga mental con percorridos xeométricos." },
+            { q: "Que é GeoBreath?", a: "É unha ferramenta de respiración guiada para regular o ritmo, mellorar a concentración e reducir a carga mental con percorridos xeométricos." },
             { q: "É privado?", a: "Si. A experiencia principal funciona localmente no dispositivo e non precisa conta para comezar." },
             { q: "Como se usa mellor?", a: "Escolle unha figura, axusta os segundos por lado e segue o punto. Podes activar son, vibración, pictogramas ou voz." }
         ],
@@ -315,7 +315,7 @@ export const translations: Record<Language, AppTranslations> = {
         footer: "Sistema propietat d'EDUmind",
         faqTitle: "Preguntes freqüents",
         faq: [
-            { q: "Què és Respira LME?", a: "És una eina de respiració guiada per regular el ritme, millorar la concentració i reduir la càrrega mental amb recorreguts geomètrics." },
+            { q: "Què és GeoBreath?", a: "És una eina de respiració guiada per regular el ritme, millorar la concentració i reduir la càrrega mental amb recorreguts geomètrics." },
             { q: "És privat?", a: "Sí. L'experiència principal funciona localment al dispositiu i no cal cap compte per començar." },
             { q: "Com s'utilitza millor?", a: "Tria una figura, ajusta els segons per costat i segueix el punt. Pots activar so, vibració, pictogrames o veu." }
         ],
@@ -403,7 +403,7 @@ export const translations: Record<Language, AppTranslations> = {
         footer: "EDUmind-en sistema",
         faqTitle: "Ohiko galderak",
         faq: [
-            { q: "Zer da Respira LME?", a: "Arnasketa gidatuko tresna bat da, erritmoa erregulatzeko, kontzentrazioa hobetzeko eta karga mentala jaisteko ibilbide geometrikoekin." },
+            { q: "Zer da GeoBreath?", a: "Arnasketa gidatuko tresna bat da, erritmoa erregulatzeko, kontzentrazioa hobetzeko eta karga mentala jaisteko ibilbide geometrikoekin." },
             { q: "Pribatua al da?", a: "Bai. Esperientzia nagusia gailuan bertan funtzionatzen du eta ez du konturik behar hasteko." },
             { q: "Nola erabili hobeto?", a: "Aukeratu irudi bat, doitu segundoak alde bakoitzeko eta jarraitu puntua. Soinua, bibrazioa, pictogramak edo ahotsa aktiba ditzakezu." }
         ],
@@ -491,7 +491,7 @@ export const translations: Record<Language, AppTranslations> = {
         footer: "System owned by EDUmind",
         faqTitle: "Frequently asked questions",
         faq: [
-            { q: "What is Respira LME?", a: "It is a guided breathing tool built to regulate pace, improve focus and reduce mental load through geometric breathing paths." },
+            { q: "What is GeoBreath?", a: "It is a guided breathing tool built to regulate pace, improve focus and reduce mental load through geometric breathing paths." },
             { q: "Is it private?", a: "Yes. The main experience runs locally on the device and does not require an account to begin." },
             { q: "How should I use it?", a: "Pick a shape, adjust the seconds per side and follow the moving point. You can enable sound, vibration, pictograms or voice." }
         ],
@@ -579,7 +579,7 @@ export const translations: Record<Language, AppTranslations> = {
         footer: "EDUmind 拥有的系统",
         faqTitle: "常见问题",
         faq: [
-            { q: "什么是 Respira LME？", a: "这是一个引导呼吸工具，通过几何路径帮助你调节节奏、提升专注并降低心理负荷。" },
+            { q: "什么是 GeoBreath？", a: "这是一个引导呼吸工具，通过几何路径帮助你调节节奏、提升专注并降低心理负荷。" },
             { q: "它是私密的吗？", a: "是的。主要体验在设备本地运行，开始使用不需要账户。" },
             { q: "怎样使用更好？", a: "选择图形，调整每边秒数，并跟随移动点。你也可以开启声音、震动、图示或语音。" }
         ],
