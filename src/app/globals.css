@@ -32,7 +32,7 @@
     --color-paper-2: #f0ede5;
     --color-ink: #1c1a16;
     --color-ink-2: #4f4a41;
-    --color-ink-3: #6b655a; /* 4,6:1 sobre papel: válido para texto pequeño */
+    --color-ink-3: #625c52; /* ≥4,5:1 sobre papel y sobre los fondos teñidos (bg-mental/15): válido para texto pequeño */
     --color-rule: #c7c0b1;
     --color-rule-strong: #1c1a16;
 
@@ -58,8 +58,8 @@
 :root {
     color-scheme: light;
     /* El canon fija --lm-ink-3 en #8a8377 (3:1, solo texto grande). Esta app lo
-       usa en texto de 10-11 px, así que se sube a 4,6:1 sin tocar lamina-v1.css. */
-    --lm-ink-3: #6b655a;
+       usa en texto de 10-11 px, así que se sube a ≥4,5:1 sin tocar lamina-v1.css. */
+    --lm-ink-3: #625c52;
     --lm-display: var(--f-display), "Bricolage Grotesque", "Outfit", "Helvetica Neue", Arial, sans-serif;
     --lm-body: var(--f-body), "Poppins", "Outfit", system-ui, sans-serif;
     --lm-mono: var(--f-mono), "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
